@@ -13,7 +13,7 @@ sudo apt install curl
 Instalar la clave del repositorio de `penguins-eggs`
 
 ```
-curl -fsSL https://pieroproietti.github.io/penguins-eggs-ppa/KEY.gpg | sudo gpg --dearmor -o /etc/apt/trusted-gpg.d/penguins-eggs.gpg
+curl -fsSL https://pieroproietti.github.io/penguins-eggs-ppa/KEY.gpg | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/penguins-eggs.gpg
 ```
 
 Configurar el paquete
