@@ -22,6 +22,12 @@ Configurar el paquete
 echo "deb [arch=$(dpkg --print-architecture)] https://pieroproietti.github.io/penguins-eggs-ppa ./" | sudo tee /etc/apt/sources.list.d/penguins-eggs.list > /dev/null
 ```
 
+Actualizar la lista de repositorios
+
+```
+sudo apt update
+``
+
 Instalar `eggs`
 
 ```
