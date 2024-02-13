@@ -26,7 +26,7 @@ Actualizar la lista de repositorios
 
 ```
 sudo apt update
-``
+```
 
 Instalar `eggs`
 
