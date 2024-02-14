@@ -1,24 +1,11 @@
 #!/bin/bash
 choice=$(zenity --list \
-	--title "Paquete" \
-	--column="Nombre" --column="Descripción" \
-	CodeBlocks "IDE para programación en C" \
-	"Visual Studio Code" "IDE para programación en general")
+	--title "Instalación de paquetes - UNS" \
+	--height=600 \
+	--width=800 \
+	--hide-column=1 \
+	--column="package_name" --column="Nombre" --column="Descripción" \
+	codeblocks CodeBlocks "IDE para programación en C" \
+	lazarus Lazarus "IDE para programación en Pascal")
 
-if [ $choice = "CodeBlocks" ]; then
-(	
-	echo "10"
-	echo "# Instalando CodeBlocks..."; source codeblocks.sh
-	echo "# Terminado"
-	echo "100"
-	) |
-	zenity --progress \
-  	--title="iInstalación de Codeblocks" \
-  	--text="Esperando por autenticación de Sudoo" \
-	  --percentage=0
-
-	if [ "$?" = -1 ] ; then
-    	    zenity --error \
-	          --text="Instalación fallida."
-	fi
-fi;
+make ${choice} -f packages/makefile 
