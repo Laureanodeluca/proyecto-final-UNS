@@ -14,7 +14,7 @@ En los siguientes cuadros están los softwares necesarios en la carrera y el sop
 | 2° | Infostat | Estadística | ❌ |
 | 2° | CodeBlocks | Orga | ✔️ |
 | 3° | Logisim | Arquitectura de Computadoras | ❌ |
-| 3° | Swi-Prolog | Lógica | ❌ |
+| 3° | Swi-Prolog | Lógica | ✔️ |
 | 3° | MySQL | Bases de Datos | ❌ |
 | 3° | Alloy | Métodos Formales | ❌ |
 | 3° | VMware | Sistemas Operativos | ❌ |
