@@ -8,7 +8,7 @@ En los siguientes cuadros están los softwares necesarios en la carrera y el sop
 | Año | Software | Materia | Estado |
 | :---: | :--------: | :-------: | :------: |
 | 1° | Lazarus | RPA | ✔️|
-| 1° | BlueJ | IPOO | ❌ |
+| 1° | BlueJ | IPOO | ✔️ |
 | 2° | Eclipse | Estructuras de Datos, TDP | ❌ |
 | 2° | StarUML | Modelos de Software | ❌ |
 | 2° | Infostat | Estadística | ❌ |
