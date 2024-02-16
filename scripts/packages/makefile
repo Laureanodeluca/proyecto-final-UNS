@@ -43,8 +43,13 @@ staruml:
 	PKG_NAME=$$(echo $$URL | grep -o "StarUML_[0-9]*\.[0-9]*\.[0-9]*_amd64\.deb");\
 	$(call deb-install,$${URL},$${PKG_NAME},StarUML)
 
+.PHONY: logisim
 logisim:
 	$(call apt-install,logisim,Logisim)
+
+.PHONY: postgresql
+postgresql:
+	$(call apt-install,postgresql,PostgreSQL)
 
 define apt-install
 	@pkexec -u $$USER sudo apt-get install $1 -y | yad --progress --pulsate --button=gtk-cancel:1 --auto-kill --auto-close --borders=15 --width=350 --text="Instalando paquete..." --title="Instalación de $1"; \

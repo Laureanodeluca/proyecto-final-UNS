@@ -27,7 +27,7 @@ En los siguientes cuadros están los softwares necesarios en la carrera y el sop
 | 4° | React | IAWeb | ❌ |
 | 4° | Vue | IAWeb | ❌ |
 | 4° | PHP | IAWeb | ❌ |
-| 4° | PostgreSQL | IAWeb | ❌ |
+| 4° | PostgreSQL | IAWeb | ✔️ |
 | 4° | NodeJS | IAWeb | ❌ |
 | 4° | Postman | IAWeb, VyVS | ❌ |
 | 4° | ProjectLibre | PSS | ❌ |

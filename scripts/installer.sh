@@ -14,7 +14,8 @@ choice=$(yad --list \
 	bluej BlueJ "IDE para programación en Java. Orientado a principiantes." \
 	eclipse Eclipse "IDE para programación en Java."\
 	staruml StarUML "Herramienta para creación de diagramas UML"\
-	logisim Logisim "Herramienta para diagramado de circuitos")
+	logisim Logisim "Herramienta para diagramado de circuitos"\
+	postgresql PostgreSQL "Sistema de gestión de bases de datos open source")
 
 if [ $? -eq 0 ]; then
 	make ${choice} -f $(dirname $0)/packages/makefile
