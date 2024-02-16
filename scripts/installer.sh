@@ -11,7 +11,8 @@ choice=$(yad --list \
 	codeblocks CodeBlocks "IDE para programación en C" \
 	lazarus Lazarus "IDE para programación en Pascal"\
 	swi-prolog SWI-prolog "Intérprete para el lenguaje de programación Prolog"\
-	bluej BlueJ "IDE para programación en Java. Orientado a principiantes.")
+	bluej BlueJ "IDE para programación en Java. Orientado a principiantes." \
+	eclipse Eclipse "IDE para programación en Java.")
 
 if [ $? -eq 0 ]; then
 	make ${choice} -f $(dirname $0)/packages/makefile
