@@ -17,7 +17,8 @@ choice=$(yad --list \
 	logisim Logisim "Herramienta para diagramado de circuitos."\
 	postgresql PostgreSQL "Sistema de gestión de bases de datos open source."\
 	kotlin Kotlin "Lenguaje de programación de alto nivel."\
-	android-studio "Android Studio" "IDE Para programación en dispositivos Android.")
+	android-studio "Android Studio" "IDE Para programación en dispositivos Android."\
+	visual-studio-code "Visual Studio Code" "IDE Para programación multilenguaje.")
 
 if [ $? -eq 0 ]; then
 	make ${choice} -f $(dirname $0)/packages/makefile

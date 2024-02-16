@@ -64,9 +64,13 @@ android-studio:
 	tar -xvzf /$${HOME}/$${PACKAGE_NAME} -C $${HOME} | yad --progress --pulsate --auto-kill --auto-close --borders=15 --no-buttons --text="Esperando a que finalice la instalación..." --title="Instalación de Android Studio";\
 	eval $${HOME}/android-studio/bin/studio.sh
 
+.PHONY: visual-studio-code
+visual-studio-code:
+	@URL=$$(curl -sL https://code.visualstudio.com/updates/ | grep -o "https://update\.code\.visualstudio\.com/[0-9]*\.[0-9]*\.[0-9]*/linux-deb-x64/stable");\
+	$(call deb-install,$${URL},visual-studio-code.deb,"Visual\ Studio\ Code")
 
 define apt-install
-	@pkexec -u $$USER sudo apt-get install $1 -y | yad --progress --pulsate --button=gtk-cancel:1 --auto-kill --auto-close --borders=15 --width=350 --text="Instalando paquete..." --title="Instalación de $1"; \
+	@pkexec sudo apt-get install $1 -y | yad --progress --pulsate --button=gtk-cancel:1 --auto-kill --auto-close --borders=15 --width=350 --text="Instalando paquete..." --title="Instalación de $1"; \
 	if [[ $$? -eq 0 ]]; then \
 		yad --title="Éxito" --text-align=center --width=350 --borders=15 --image=dialog-success --text="$2 instalado correctamente."; \
 	else \
@@ -77,10 +81,10 @@ endef
 define deb-install
 	echo /tmp/$2;\
 	rm -f /tmp/$2*;\
-	wget --progress=dot $1 -P /tmp 2>&1 | grep --line-buffered -oP "(\d+(\.\d+)?(?=%))" | yad --progress --button=gtk-cancel:1 --auto-close --borders=15 --width=350 --text="Descargando paquete..." --title="Instalación de $2";\
+	wget --progress=dot $1 -P /tmp -O /tmp/$2 2>&1 | grep --line-buffered -oP "(\d+(\.\d+)?(?=%))" | yad --progress --button=gtk-cancel:1 --auto-close --borders=15 --width=350 --text="Descargando paquete..." --title="Instalación de $2";\
 	code=$$?;\
 	if [[ $$code -eq 0 ]]; then \
-		pkexec -u $$USER sudo dpkg -i /tmp/$2 2>&1 | yad --progress --pulsate --button=gtk-cancel:1 --auto-kill --auto-close --borders=15 --width=350 --title="Instalación de $2" --text="Instalando paquete...";\
+		pkexec dpkg -i /tmp/$2 2>&1 | yad --progress --pulsate --button=gtk-cancel:1 --auto-kill --auto-close --borders=15 --width=350 --title="Instalación de $2" --text="Instalando paquete...";\
 		code=$$?;\
 	fi; \
 	if [[ $$code -eq 0 ]]; then \

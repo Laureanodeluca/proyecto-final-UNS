@@ -22,7 +22,7 @@ En los siguientes cuadros están los softwares necesarios en la carrera y el sop
 | 4° | IntelliJ | Arqui y Diseño | ❌ |
 | 4° | Jira | Arqui y Diseño | ❌ |
 | 4° | Kotlin | Arqui y Diseño | ✔️ |
-| 4° | Visual Studio Code | IAWeb | ❌ |
+| 4° | Visual Studio Code | IAWeb | ✔️ |
 | 4° | NPM | IAWeb | ❌ |
 | 4° | React | IAWeb | ❌ |
 | 4° | Vue | IAWeb | ❌ |
