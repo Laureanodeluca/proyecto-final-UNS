@@ -51,6 +51,20 @@ logisim:
 postgresql:
 	$(call apt-install,postgresql,PostgreSQL)
 
+.PHONY: kotlin
+kotlin:
+	$(call apt-install,kotlin,Kotlin)
+
+.PHONY: android-studio
+android-studio:
+	URL=$$(curl -s https://developer.android.com/studio?hl=es-419 | grep -o "https://redirector\.gvt1\.com/edgedl/android/studio/ide-zips/[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*/android-studio-[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*-linux.tar.gz");\
+	PACKAGE_NAME=$$(echo $${URL} | grep -o android-studio-[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*-linux.tar.gz);\
+	echo "URL: $$URL";\
+	wget --progress=dot $${URL} -P $${HOME} 2>&1 | grep --line-buffered -oP "(\d+(\.\d+)?(?=%))" | yad --progress --button=gtk-cancel:1 --auto-close --borders=15 --width=350 --text="Descargando paquete..." --title="Instalación de Android Studio";\
+	tar -xvzf /$${HOME}/$${PACKAGE_NAME} -C $${HOME} | yad --progress --pulsate --auto-kill --auto-close --borders=15 --no-buttons --text="Esperando a que finalice la instalación..." --title="Instalación de Android Studio";\
+	eval $${HOME}/android-studio/bin/studio.sh
+
+
 define apt-install
 	@pkexec -u $$USER sudo apt-get install $1 -y | yad --progress --pulsate --button=gtk-cancel:1 --auto-kill --auto-close --borders=15 --width=350 --text="Instalando paquete..." --title="Instalación de $1"; \
 	if [[ $$? -eq 0 ]]; then \
