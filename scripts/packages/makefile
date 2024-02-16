@@ -43,8 +43,11 @@ staruml:
 	PKG_NAME=$$(echo $$URL | grep -o "StarUML_[0-9]*\.[0-9]*\.[0-9]*_amd64\.deb");\
 	$(call deb-install,$${URL},$${PKG_NAME},StarUML)
 
+logisim:
+	$(call apt-install,logisim,Logisim)
+
 define apt-install
-	@pkexec -u $$USER apt-get install $1 -y | yad --progress --pulsate --button=gtk-cancel:1 --auto-kill --auto-close --borders=15 --width=350 --text="Instalando paquete..." --title="Instalación de $1"; \
+	@pkexec -u $$USER sudo apt-get install $1 -y | yad --progress --pulsate --button=gtk-cancel:1 --auto-kill --auto-close --borders=15 --width=350 --text="Instalando paquete..." --title="Instalación de $1"; \
 	if [[ $$? -eq 0 ]]; then \
 		yad --title="Éxito" --text-align=center --width=350 --borders=15 --image=dialog-success --text="$2 instalado correctamente."; \
 	else \
@@ -58,7 +61,7 @@ define deb-install
 	wget --progress=dot $1 -P /tmp 2>&1 | grep --line-buffered -oP "(\d+(\.\d+)?(?=%))" | yad --progress --button=gtk-cancel:1 --auto-close --borders=15 --width=350 --text="Descargando paquete..." --title="Instalación de $2";\
 	code=$$?;\
 	if [[ $$code -eq 0 ]]; then \
-		pkexec -u $$USER dpkg -i /tmp/$2 2>&1 | yad --progress --pulsate --button=gtk-cancel:1 --auto-kill --auto-close --borders=15 --width=350 --title="Instalación de $2" --text="Instalando paquete...";\
+		pkexec -u $$USER sudo dpkg -i /tmp/$2 2>&1 | yad --progress --pulsate --button=gtk-cancel:1 --auto-kill --auto-close --borders=15 --width=350 --title="Instalación de $2" --text="Instalando paquete...";\
 		code=$$?;\
 	fi; \
 	if [[ $$code -eq 0 ]]; then \
