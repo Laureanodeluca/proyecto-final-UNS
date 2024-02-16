@@ -7,10 +7,10 @@ En los siguientes cuadros están los softwares necesarios en la carrera y el sop
 ### Ingeniería en Sistemas de Información
 | Año | Software | Materia | Estado |
 | :---: | :--------: | :-------: | :------: |
-| 1° | Lazarus | RPA | ✔️|
+| 1° | Lazarus | RPA | ✔️ |
 | 1° | BlueJ | IPOO | ✔️ |
 | 2° | Eclipse | Estructuras de Datos, TDP | ✔️ |
-| 2° | StarUML | Modelos de Software | ❌ |
+| 2° | StarUML | Modelos de Software | ✔️ |
 | 2° | Infostat | Estadística | ❌ |
 | 2° | CodeBlocks | Orga | ✔️ |
 | 3° | Logisim | Arquitectura de Computadoras | ❌ |
