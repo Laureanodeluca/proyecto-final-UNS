@@ -55,6 +55,20 @@ postgresql:
 kotlin:
 	$(call apt-install,kotlin,Kotlin)
 
+.PHONY: alloy
+alloy:
+	URL=$$(curl -L https://api.github.com/repos/AlloyTools/org.alloytools.alloy/releases/latest | grep "browser_download_url.*jar"| cut -d : -f 2,3 | tr -d \");\
+	mkdir ~/alloy/;\
+	wget $${URL} -P ~ -O ~/alloy/alloy.jar 2>&1 | grep --line-buffered -Eo "[0-9]{1,2}%" | yad --progress --pulsate --auto-kill --auto-close --borders=15 --no-buttons --text="Esperando a que finalice la instalación..." --title="Instalación de Alloy";\
+	chmod u+x ~/alloy/alloy.jar;\
+	pkexec ln -s ~/alloy/alloy.jar /usr/bin/alloy;\
+	if [[ $$? -eq 0 ]]; then \
+		yad --title="Éxito" --text-align=center --width=350 --borders=15 --image=dialog-success --text="$2 instalado correctamente."; \
+	else \
+		yad --title="Error" --text-align=center --width=350 --borders=15 --image=dialog-error --text="Operación cancelada."; \
+	fi
+
+
 .PHONY: android-studio
 android-studio:
 	URL=$$(curl -s https://developer.android.com/studio?hl=es-419 | grep -o "https://redirector\.gvt1\.com/edgedl/android/studio/ide-zips/[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*/android-studio-[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*-linux.tar.gz");\
