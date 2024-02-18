@@ -83,8 +83,13 @@ visual-studio-code:
 	@URL=$$(curl -sL https://code.visualstudio.com/updates/ | grep -o "https://update\.code\.visualstudio\.com/[0-9]*\.[0-9]*\.[0-9]*/linux-deb-x64/stable");\
 	$(call deb-install,$${URL},visual-studio-code.deb,"Visual\ Studio\ Code")
 
+.PHONY: mysql
+mysql:
+	@$(call apt-install,mysql-server,MySQL);
+	$(call apt-install,mysql-client,MySQL)
+
 define apt-install
-	@pkexec sudo apt-get install $1 -y | yad --progress --pulsate --button=gtk-cancel:1 --auto-kill --auto-close --borders=15 --width=350 --text="Instalando paquete..." --title="Instalación de $1"; \
+	@pkexec apt-get install $1 -y | yad --progress --pulsate --button=gtk-cancel:1 --auto-kill --auto-close --borders=15 --width=350 --text="Instalando paquete..." --title="Instalación de $1"; \
 	if [[ $$? -eq 0 ]]; then \
 		yad --title="Éxito" --text-align=center --width=350 --borders=15 --image=dialog-success --text="$2 instalado correctamente."; \
 	else \

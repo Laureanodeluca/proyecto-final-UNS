@@ -19,7 +19,8 @@ choice=$(yad --list \
 	kotlin Kotlin "Lenguaje de programación de alto nivel."\
 	android-studio "Android Studio" "IDE Para programación en dispositivos Android."\
 	visual-studio-code "Visual Studio Code" "IDE Para programación multilenguaje."\
-	alloy Alloy "Lenguaje para expresar estructuras de control y comportamiento en un sistema de software.")
+	alloy Alloy "Lenguaje para expresar estructuras de control y comportamiento en un sistema de software."\
+	mysql MySQL "Administrador de bases de datos.")
 
 if [ $? -eq 0 ]; then
 	make ${choice} -f $(dirname $0)/packages/makefile
