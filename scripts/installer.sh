@@ -25,7 +25,9 @@ choice=$(yad --list \
 	intellij "IntelliJ IDEA" "IDE para programación en Java y Kotlin."\
 	npm "NPM" "Sistema de gestión de paquetes para NodeJS."\
 	projectlibre "ProjectLibre" "Sistema de gestión de proyectos."\
-	postman "Postman" "Gestor de endpoints de APIs")
+	postman "Postman" "Gestor de endpoints de APIs."\
+	php "PHP" "Lenguaje de programación interpretado del lado del servidor."\
+	pmd "PMD" "Analizador de código multilenguaje.")
 
 if [ $? -eq 0 ]; then
 	make ${choice} -f $(dirname $0)/packages/makefile

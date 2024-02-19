@@ -64,7 +64,7 @@ alloy:
 	chmod u+x ~/alloy/alloy.jar;\
 	pkexec ln -s ~/alloy/alloy.jar /usr/bin/alloy;\
 	if [[ $$? -eq 0 ]]; then \
-		yad --title="Éxito" --text-align=center --width=350 --borders=15 --image=dialog-success --text="$2 instalado correctamente."; \
+		yad --title="Éxito" --text-align=center --width=350 --borders=15 --image=dialog-success --text="Alloy instalado correctamente."; \
 	else \
 		yad --title="Error" --text-align=center --width=350 --borders=15 --image=dialog-error --text="Operación cancelada."; \
 	fi
@@ -73,11 +73,10 @@ alloy:
 .PHONY: android-studio
 android-studio:
 	URL=$$(curl -s https://developer.android.com/studio?hl=es-419 | grep -o "https://redirector\.gvt1\.com/edgedl/android/studio/ide-zips/[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*/android-studio-[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*-linux.tar.gz");\
-	PACKAGE_NAME=$$(echo $${URL} | grep -o android-studio-[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*-linux.tar.gz);\
-	echo "URL: $$URL";\
-	wget --progress=dot $${URL} -P $${HOME} 2>&1 | grep --line-buffered -oP "(\d+(\.\d+)?(?=%))" | yad --progress --button=gtk-cancel:1 --auto-close --borders=15 --width=350 --text="Descargando paquete..." --title="Instalación de Android Studio";\
-	tar -xvzf /$${HOME}/$${PACKAGE_NAME} -C $${HOME} | yad --progress --pulsate --auto-kill --auto-close --borders=15 --no-buttons --text="Esperando a que finalice la instalación..." --title="Instalación de Android Studio";\
-	eval $${HOME}/android-studio/bin/studio.sh
+	TARBALL_NAME=$$(echo $${URL} | grep -o android-studio-[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*-linux.tar.gz);\
+	INSTALLER=android-studio/bin/studio.sh;\
+	$(call tarball-download,$${URL},$${TARBALL_NAME},"Android\ Studio");\
+	$(call generic-install,$${INSTALLER},"Android\ Studio")
 
 .PHONY: visual-studio-code
 visual-studio-code:
@@ -125,6 +124,25 @@ postman:
 		yad --title=Error --text="Operación cancelada" --button=gtk-ok:0 --image=dialog-error borders=15 --text-align=center --width=350;\
 	fi
 
+.PHONY: php
+php:
+	@$(call apt-install,php,PHP)
+
+.PHONY: pmd
+pmd:
+	@URL=$$(curl -sL https://api.github.com/repos/pmd/pmd/releases/latest | grep "browser_download_url.*bin\.zip" | cut -d : -f 2,3 | tr -d \");\
+	ZIPFILE_NAME=$$(echo $${URL} | cut -d '/' -f 10-);\
+	LATEST_VERSION=$$(curl -s https://api.github.com/repos/pmd/pmd/releases/latest | grep "tag_name.*[0-9]*\.*[0-9]*\.[0-9]*" | cut -d "/" -f 2- | tr -d \" | tr -d ,);\
+	INSTALL_FOLDER="$${HOME}/pmd-bin-$${LATEST_VERSION}/";\
+	echo "FLD: $$INSTALL_FOLDER";\
+	$(call zip-download,$${URL},$${ZIPFILE_NAME}, "PMD");\
+	pkexec ln -s $${INSTALL_FOLDER}/bin/pmd /usr/bin/;\
+	if [[ $$? -eq 0 ]]; then \
+		yad --title="Éxito" --text-align=center --width=350 --borders=15 --image=dialog-success --text="PMD instalado correctamente."; \
+	else \
+		yad --title="Error" --text-align=center --width=350 --borders=15 --image=dialog-error --text="Operación cancelada."; \
+	fi
+
 # =============== Tipos de instalación genéricos ===============
 # Para la mayoría de los paquetes, que siguen un patrón marcado de instalación
 # 
@@ -144,8 +162,13 @@ postman:
 #
 # tarball-download: Descarga y descomprime un archivo .tar.gz.
 # 	$1: URL de descarga.
-# 	$2: Nombre del paquete (Nombre del directorio (relativo) donde se descomprime el .tar.gz).
+# 	$2: Nombre del tarball (.tar.gz).
 # 	$3: Nombre del programa.
+#
+# zip-download: Descarga y descomprime un archivo .zip.
+#	$1: URL de descarga.
+#	$2: Nombre del archivo .zip.
+#	$3: Nombre del programa.
 
 define apt-install
 	pkexec apt-get install $1 -y | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Instalando paquete..." --title="Instalación de $1"; \
@@ -172,12 +195,19 @@ define deb-install
 	fi
 endef
 
+define generic-install
+	echo "PATH: $${HOME}/$1";\
+	eval $$HOME/$1 | zenity --progress --pulsate --auto-kill --auto-close --no-cancel --text="Esperando a que finalice la instalación..." --title="Instalación de $2"
+endef
+
 define tarball-download
 	wget --progress=dot $1 -O $$HOME/$2 2>&1 | grep --line-buffered -oP "(\d+(\.\d+)?(?=%))" | yad --progress --button=gtk-cancel:1 --auto-close --borders=15 --width=350 --text="Descargando paquete..." --title="Instalación de $3";\
 	tar -xvzf $$HOME/$2 -C $$HOME | zenity --progress --pulsate --no-cancel --auto-kill --auto-close --width=350 --title "Instalación de $3" --text="Descomprimiendo $2...";\
 	rm -f $$HOME/$2
 endef
 
-define generic-install
-	eval $$HOME/$1 | zenity --progress --pulsate --auto-kill --auto-close --no-cancel --text="Esperando a que finalice la instalación..." --title="Instalación de $2"
+define zip-download
+	wget $1 -O $${HOME}/$2 2>&1 | grep --line-buffered -Eo "[0-9]{1,2}%" | yad --progress --pulsate --auto-kill --auto-close --borders=15 --no-buttons --text="Esperando a que finalice la instalación..." --title="Instalación de Alloy";\
+	unzip $$HOME/$2 -d $$HOME| zenity --progress --pulsate --no-cancel --auto-kill --auto-close --width=350 --title "Instalación de $3" --text="Descomprimiendo $2...";\
+	rm -f $${HOME}/$2
 endef

@@ -26,12 +26,12 @@ En los siguientes cuadros están los softwares necesarios en la carrera y el sop
 | 4° | NPM | IAWeb | ✔️ | |
 | 4° | React | IAWeb | ✔️ | _No es necesario instalar, se  usa NPM_ |
 | 4° | Vue | IAWeb | ✔️ | _No es necesario instalar, se usa NPM_ |
-| 4° | PHP | IAWeb | ❌ | |
+| 4° | PHP | IAWeb | ✔️ | |
 | 4° | PostgreSQL | IAWeb | ✔️ | |
 | 4° | NodeJS | IAWeb | ✔️ | _Se instala al instalar npm_ |
 | 4° | Postman | IAWeb, VyVS | ✔️ | |
 | 4° | ProjectLibre | PSS | ✔️ | |
-| 4° | PMD | VyVS | ❌ | |
+| 4° | PMD | VyVS | ✔️ | |
 | 4° | SonarQube | VyVS | ❌ | |
 | 4° | Selenium IDE | VyVS | ❌ | |
 | 4° | Selenium Webdriver | VyVS | ❌ | |
