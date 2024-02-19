@@ -83,17 +83,36 @@ visual-studio-code:
 	@URL=$$(curl -sL https://code.visualstudio.com/updates/ | grep -o "https://update\.code\.visualstudio\.com/[0-9]*\.[0-9]*\.[0-9]*/linux-deb-x64/stable");\
 	$(call deb-install,$${URL},visual-studio-code.deb,"Visual\ Studio\ Code")
 
+.PHONY: virtualbox
+virtualbox:
+	@$(call apt-install,virtualbox,VirtualBox);\
+
 .PHONY: mysql
 mysql:
 	@$(call apt-install,mysql-server,MySQL);
 	$(call apt-install,mysql-client,MySQL)
 
+.PHONY: intellij
+intellij: 
+	@LATEST_VERSION=$$(curl -s https://blog.jetbrains.com/idea/category/releases/ | grep -Eo "[0-9]{4}\.[0-9]*\.[0-9]*" | head -n 1);\
+	PACKAGE_NAME=ideaIC-$${LATEST_VERSION}.tar.gz;\
+	URL=https://download-cdn.jetbrains.com/idea/ideaIC-$${LATEST_VERSION}.tar.gz;\
+	wget --progress=dot $${URL} -P ~ 2>&1 | grep --line-buffered -oP "(\d+(\.\d+)?(?=%))" | yad --progress --button=gtk-cancel:1 --auto-close --borders=15 --width=350 --text="Descargando paquete..." --title="Instalación de IntelliJ";\
+	tar -xvzf ~/$${PACKAGE_NAME} -C ~ | yad --progress --pulsate --auto-kill --auto-close --borders=15 --no-buttons --text="Descomprimiendo IntelliJ..." --title="Instalación de IntelliJ";\
+	rm ~/$${PACKAGE_NAME};\
+	DIRECTORY=$$(ls ~ | grep -o "idea-IC-[0-9]*\.[0-9]*\.[0-9]*" | head -n 1);\
+	eval ~/$${DIRECTORY}/bin/idea.sh
+
+.PHONY: npm
+npm:
+	@$(call apt-install,npm,NPM)
+
 define apt-install
-	@pkexec apt-get install $1 -y | yad --progress --pulsate --button=gtk-cancel:1 --auto-kill --auto-close --borders=15 --width=350 --text="Instalando paquete..." --title="Instalación de $1"; \
+	pkexec apt-get install $1 -y | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Instalando paquete..." --title="Instalación de $1"; \
 	if [[ $$? -eq 0 ]]; then \
-		yad --title="Éxito" --text-align=center --width=350 --borders=15 --image=dialog-success --text="$2 instalado correctamente."; \
+		yad --title="Éxito" --text-align=center --width=350 --borders=15 --image=dialog-success --text="Instalación finalizada."; \
 	else \
-		yad --title="Error" --text-align=center --width=350 --borders=15 --image=dialog-error --text="Operación cancelada."; \
+		yad --title="Error" --text-align=center --width=350 --borders=15 --image=dialog-error --text="Ocurrió un error."; \
 	fi
 endef
 
@@ -114,7 +133,7 @@ define deb-install
 endef
 
 define tarball-download
-	wget --progress=dot $1 -P /tmp 2>&1 | grep --line-buffered -oP "(\d+(\.\d+)?(?=%))" | yad --progress --button=gtk-cancel:1 --auto-close --borders=15 --width=350 --text="Descargando paquete..." --title="Instalación de $4";\
-	EXEC="tar -xvzf /tmp/$2 -C /tmp; /tmp/$3";\
-	eval $$EXEC | yad --progress --pulsate --auto-kill --auto-close --borders=15 --no-buttons --text="Esperando a que finalice la instalación..." --title="Instalación de $4"
+	wget --progress=dot $1 -P ~ 2>&1 | grep --line-buffered -oP "(\d+(\.\d+)?(?=%))" | yad --progress --button=gtk-cancel:1 --auto-close --borders=15 --width=350 --text="Descargando paquete..." --title="Instalación de $4";\
+	EXEC="tar -xvzf ~/$2 -C ~; ~/$3";\
+	eval $$EXEC | zenity --progress --pulsate --auto-kill --auto-close --no-cancel --text="Esperando a que finalice la instalación..." --title="Instalación de $4"
 endef

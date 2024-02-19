@@ -20,7 +20,10 @@ choice=$(yad --list \
 	android-studio "Android Studio" "IDE Para programación en dispositivos Android."\
 	visual-studio-code "Visual Studio Code" "IDE Para programación multilenguaje."\
 	alloy Alloy "Lenguaje para expresar estructuras de control y comportamiento en un sistema de software."\
-	mysql MySQL "Administrador de bases de datos.")
+	mysql MySQL "Administrador de bases de datos."\
+	virtualbox VirtualBox "Gestor de máquinas virtuales."\
+	intellij "IntelliJ IDEA" "IDE de programación para Java y Kotlin."\
+	npm "NPM" "Sistema de gestión de paquetes para NodeJS.")
 
 if [ $? -eq 0 ]; then
 	make ${choice} -f $(dirname $0)/packages/makefile
