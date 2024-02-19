@@ -17,13 +17,15 @@ choice=$(yad --list \
 	logisim Logisim "Herramienta para diagramado de circuitos."\
 	postgresql PostgreSQL "Sistema de gestión de bases de datos open source."\
 	kotlin Kotlin "Lenguaje de programación de alto nivel."\
-	android-studio "Android Studio" "IDE Para programación en dispositivos Android."\
-	visual-studio-code "Visual Studio Code" "IDE Para programación multilenguaje."\
+	android-studio "Android Studio" "IDE para programación en dispositivos Android."\
+	visual-studio-code "Visual Studio Code" "IDE para programación multilenguaje."\
 	alloy Alloy "Lenguaje para expresar estructuras de control y comportamiento en un sistema de software."\
 	mysql MySQL "Administrador de bases de datos."\
 	virtualbox VirtualBox "Gestor de máquinas virtuales."\
-	intellij "IntelliJ IDEA" "IDE de programación para Java y Kotlin."\
-	npm "NPM" "Sistema de gestión de paquetes para NodeJS.")
+	intellij "IntelliJ IDEA" "IDE para programación en Java y Kotlin."\
+	npm "NPM" "Sistema de gestión de paquetes para NodeJS."\
+	projectlibre "ProjectLibre" "Sistema de gestión de proyectos."\
+	postman "Postman" "Gestor de endpoints de APIs")
 
 if [ $? -eq 0 ]; then
 	make ${choice} -f $(dirname $0)/packages/makefile

@@ -29,13 +29,14 @@ bluej:
 
 .PHONY: eclipse
 eclipse:
-	@PACKAGE_NAME="eclipse-inst-jre-linux64.tar.gz";\
+	@TARBALL_NAME="eclipse-inst-jre-linux64.tar.gz";\
 	BASE_URL="https://eclipse.c3sl.ufpr.br/oomph/epp/";\
 	LATEST_RELEASE_DATE=$$(curl -s "$$BASE_URL" | grep -Eo "[0-9]{1,4}-[0-9]{1,2}/" | tail -n 1 | grep -Eo "[0-9]{1,4}-[0-9]{1,2}");\
 	RELEASE=$$(curl -s "$${BASE_URL}/$${LATEST_RELEASE_DATE}/" | grep -o "M[0-9]" | tail -n 1);\
-	URL=$${BASE_URL}$${LATEST_RELEASE_DATE}/$${RELEASE}/$${PACKAGE_NAME};\
+	URL=$${BASE_URL}$${LATEST_RELEASE_DATE}/$${RELEASE}/$${TARBALL_NAME};\
 	INSTALLER_FILENAME="eclipse-installer/eclipse-inst";\
-	$(call tarball-download,$${URL},$${PACKAGE_NAME},$${INSTALLER_FILENAME},Eclipse)
+	$(call tarball-download,$${URL},$${TARBALL_NAME},Eclipse);\
+	$(call generic-install,$${INSTALLER_FILENAME},Eclipse)
 
 .PHONY: staruml
 staruml:
@@ -107,6 +108,45 @@ intellij:
 npm:
 	@$(call apt-install,npm,NPM)
 
+.PHONY: projectlibre
+projectlibre:
+	@LATEST_VERSION=$$(curl -sL https://sourceforge.net/projects/projectlibre/files/ProjectLibre/ | grep -o "[0-9]*\.[0-9]*\.[0-9]+*" | head -n 1);\
+	PACKAGE_NAME=projectlibre_$${LATEST_VERSION}-1.deb;\
+	URL=https://sitsa.dl.sourceforge.net/project/projectlibre/ProjectLibre/$${LATEST_VERSION}/$${PACKAGE_NAME};\
+	$(call deb-install,$${URL},$${PACKAGE_NAME},"ProjectLibre")
+
+.PHONY: postman
+postman:
+	@TARBALL_NAME="postman.tar.gz";\
+	$(call tarball-download,"https://dl.pstmn.io/download/latest/linux_64",$${TARBALL_NAME},Postman);\
+	if [[ $$code -eq 0 ]]; then \
+		yad --title=Éxito --text="Postman se instaló correctamente." --button=gtk-ok:0 --with=350 --borders=15 --text-align=center --image=dialog-success;\
+	else \
+		yad --title=Error --text="Operación cancelada" --button=gtk-ok:0 --image=dialog-error borders=15 --text-align=center --width=350;\
+	fi
+
+# =============== Tipos de instalación genéricos ===============
+# Para la mayoría de los paquetes, que siguen un patrón marcado de instalación
+# 
+# apt-install: Cuando la instalación se hace via el comando apt install [PAQUETE]
+# 	$1: Nombre del paquete APT.
+#	$2: Nomre del programa.
+#
+# deb-install: Cuando la instalación se hace mediante un archivo de instalación .deb
+# 	$1: URL de descarga.
+# 	$2: Nombre del paquete (nombre del archivo .deb).
+# 	$3: Nombre del programa
+#
+# generic-install: Cuando la instalación se hace con un script de instalación
+#	$1: URL de descarga		
+#	$2: Nombre del archivo de instalación (partiendo desde $HOME)
+#	$3: Nombre del programa.
+#
+# tarball-download: Descarga y descomprime un archivo .tar.gz.
+# 	$1: URL de descarga.
+# 	$2: Nombre del paquete (Nombre del directorio (relativo) donde se descomprime el .tar.gz).
+# 	$3: Nombre del programa.
+
 define apt-install
 	pkexec apt-get install $1 -y | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Instalando paquete..." --title="Instalación de $1"; \
 	if [[ $$? -eq 0 ]]; then \
@@ -122,18 +162,22 @@ define deb-install
 	wget --progress=dot $1 -P /tmp -O /tmp/$2 2>&1 | grep --line-buffered -oP "(\d+(\.\d+)?(?=%))" | yad --progress --button=gtk-cancel:1 --auto-close --borders=15 --width=350 --text="Descargando paquete..." --title="Instalación de $2";\
 	code=$$?;\
 	if [[ $$code -eq 0 ]]; then \
-		pkexec dpkg -i /tmp/$2 2>&1 | yad --progress --pulsate --button=gtk-cancel:1 --auto-kill --auto-close --borders=15 --width=350 --title="Instalación de $2" --text="Instalando paquete...";\
+		pkexec dpkg -i /tmp/$2 2>&1 | zenity --progress --pulsate --no-cancel --auto-kill --auto-close --width=350 --title="Instalación de $2" --text="Instalando paquete...";\
 		code=$$?;\
 	fi; \
 	if [[ $$code -eq 0 ]]; then \
-		yad --title=Éxito --text="$3 se instaló correctamente." --with=350 --borders=15 --text-align=center --image=dialog-success;\
+		yad --title=Éxito --text="$3 se instaló correctamente." --button=gtk-ok:0 --with=350 --borders=15 --text-align=center --image=dialog-success;\
 	else \
-		yad --title=Error --text="Operación cancelada" --image=dialog-error borders=15 --text-align=center --width=350;\
+		yad --title=Error --text="Operación cancelada" --button=gtk-ok:0 --image=dialog-error borders=15 --text-align=center --width=350;\
 	fi
 endef
 
 define tarball-download
-	wget --progress=dot $1 -P ~ 2>&1 | grep --line-buffered -oP "(\d+(\.\d+)?(?=%))" | yad --progress --button=gtk-cancel:1 --auto-close --borders=15 --width=350 --text="Descargando paquete..." --title="Instalación de $4";\
-	EXEC="tar -xvzf ~/$2 -C ~; ~/$3";\
-	eval $$EXEC | zenity --progress --pulsate --auto-kill --auto-close --no-cancel --text="Esperando a que finalice la instalación..." --title="Instalación de $4"
+	wget --progress=dot $1 -O $$HOME/$2 2>&1 | grep --line-buffered -oP "(\d+(\.\d+)?(?=%))" | yad --progress --button=gtk-cancel:1 --auto-close --borders=15 --width=350 --text="Descargando paquete..." --title="Instalación de $3";\
+	tar -xvzf $$HOME/$2 -C $$HOME | zenity --progress --pulsate --no-cancel --auto-kill --auto-close --width=350 --title "Instalación de $3" --text="Descomprimiendo $2...";\
+	rm -f $$HOME/$2
+endef
+
+define generic-install
+	eval $$HOME/$1 | zenity --progress --pulsate --auto-kill --auto-close --no-cancel --text="Esperando a que finalice la instalación..." --title="Instalación de $2"
 endef
