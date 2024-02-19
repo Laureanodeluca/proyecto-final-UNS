@@ -24,8 +24,8 @@ En los siguientes cuadros están los softwares necesarios en la carrera y el sop
 | 4° | Kotlin | Arqui y Diseño | ✔️ | |
 | 4° | Visual Studio Code | IAWeb | ✔️ | |
 | 4° | NPM | IAWeb | ✔️ | |
-| 4° | React | IAWeb | ❌ | |
-| 4° | Vue | IAWeb | ❌ | |
+| 4° | React | IAWeb | ✔️ | _No es necesario instalar, se  usa NPM_ |
+| 4° | Vue | IAWeb | ✔️ | _No es necesario instalar, se usa NPM_|
 | 4° | PHP | IAWeb | ❌ | |
 | 4° | PostgreSQL | IAWeb | ✔️ | |
 | 4° | NodeJS | IAWeb | ❌ | |
