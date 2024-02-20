@@ -27,10 +27,17 @@ choice=$(yad --list \
 	projectlibre "ProjectLibre" "Sistema de gestión de proyectos."\
 	postman "Postman" "Gestor de endpoints de APIs."\
 	php "PHP" "Lenguaje de programación interpretado del lado del servidor."\
-	pmd "PMD" "Analizador de código multilenguaje.")
+	pmd "PMD" "Analizador de código multilenguaje."\
+	jenkins "Jenkins" "Servidor de automatización de código abierto.")
 
 if [ $? -eq 0 ]; then
 	make ${choice} -f $(dirname $0)/packages/makefile
+	if [[ $$? -eq 0 ]]; then \
+		yad --title="Éxito" --text-align=center --width=350 --borders=15 --image=dialog-success --text="Instalación finalizada."; \
+	else \
+		yad --title="Error" --text-align=center --width=350 --borders=15 --image=dialog-error --text="Ocurrió un error."; \
+	fi
+fi
 else
 	exit 1
 fi

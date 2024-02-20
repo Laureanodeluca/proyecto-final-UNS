@@ -62,13 +62,7 @@ alloy:
 	mkdir ~/alloy/;\
 	wget $${URL} -P ~ -O ~/alloy/alloy.jar 2>&1 | grep --line-buffered -Eo "[0-9]{1,2}%" | yad --progress --pulsate --auto-kill --auto-close --borders=15 --no-buttons --text="Esperando a que finalice la instalación..." --title="Instalación de Alloy";\
 	chmod u+x ~/alloy/alloy.jar;\
-	pkexec ln -s ~/alloy/alloy.jar /usr/bin/alloy;\
-	if [[ $$? -eq 0 ]]; then \
-		yad --title="Éxito" --text-align=center --width=350 --borders=15 --image=dialog-success --text="Alloy instalado correctamente."; \
-	else \
-		yad --title="Error" --text-align=center --width=350 --borders=15 --image=dialog-error --text="Operación cancelada."; \
-	fi
-
+	pkexec ln -s ~/alloy/alloy.jar /usr/bin/alloy
 
 .PHONY: android-studio
 android-studio:
@@ -117,12 +111,7 @@ projectlibre:
 .PHONY: postman
 postman:
 	@TARBALL_NAME="postman.tar.gz";\
-	$(call tarball-download,"https://dl.pstmn.io/download/latest/linux_64",$${TARBALL_NAME},Postman);\
-	if [[ $$code -eq 0 ]]; then \
-		yad --title=Éxito --text="Postman se instaló correctamente." --button=gtk-ok:0 --with=350 --borders=15 --text-align=center --image=dialog-success;\
-	else \
-		yad --title=Error --text="Operación cancelada" --button=gtk-ok:0 --image=dialog-error borders=15 --text-align=center --width=350;\
-	fi
+	$(call tarball-download,"https://dl.pstmn.io/download/latest/linux_64",$${TARBALL_NAME},Postman)
 
 .PHONY: php
 php:
@@ -136,12 +125,23 @@ pmd:
 	INSTALL_FOLDER="$${HOME}/pmd-bin-$${LATEST_VERSION}/";\
 	echo "FLD: $$INSTALL_FOLDER";\
 	$(call zip-download,$${URL},$${ZIPFILE_NAME}, "PMD");\
-	pkexec ln -s $${INSTALL_FOLDER}/bin/pmd /usr/bin/;\
-	if [[ $$? -eq 0 ]]; then \
-		yad --title="Éxito" --text-align=center --width=350 --borders=15 --image=dialog-success --text="PMD instalado correctamente."; \
-	else \
-		yad --title="Error" --text-align=center --width=350 --borders=15 --image=dialog-error --text="Operación cancelada."; \
-	fi
+	pkexec ln -s $${INSTALL_FOLDER}/bin/pmd /usr/bin/
+
+.PHONY: jenkins
+jenkins:
+	@pkexec /bin/bash -c 'wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key;\
+	echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null;\
+	echo "# Actualizando repositorio";\
+	pkexec apt update;\
+	echo "10";\
+	echo "# Instalando dependencias...";\
+	pkexec apt install fontconfig openjdk-17-jre -y;\
+	echo "50";\
+	echo "# Instalando Jenkins...";\
+	pkexec apt-get install jenkins -y;\
+	echo "100"' | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Instalando paquete..." --title="Instalación de Jenkins"
+
+
 
 # =============== Tipos de instalación genéricos ===============
 # Para la mayoría de los paquetes, que siguen un patrón marcado de instalación
@@ -172,11 +172,6 @@ pmd:
 
 define apt-install
 	pkexec apt-get install $1 -y | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Instalando paquete..." --title="Instalación de $1"; \
-	if [[ $$? -eq 0 ]]; then \
-		yad --title="Éxito" --text-align=center --width=350 --borders=15 --image=dialog-success --text="Instalación finalizada."; \
-	else \
-		yad --title="Error" --text-align=center --width=350 --borders=15 --image=dialog-error --text="Ocurrió un error."; \
-	fi
 endef
 
 define deb-install
@@ -187,11 +182,6 @@ define deb-install
 	if [[ $$code -eq 0 ]]; then \
 		pkexec dpkg -i /tmp/$2 2>&1 | zenity --progress --pulsate --no-cancel --auto-kill --auto-close --width=350 --title="Instalación de $2" --text="Instalando paquete...";\
 		code=$$?;\
-	fi; \
-	if [[ $$code -eq 0 ]]; then \
-		yad --title=Éxito --text="$3 se instaló correctamente." --button=gtk-ok:0 --with=350 --borders=15 --text-align=center --image=dialog-success;\
-	else \
-		yad --title=Error --text="Operación cancelada" --button=gtk-ok:0 --image=dialog-error borders=15 --text-align=center --width=350;\
 	fi
 endef
 
