@@ -32,11 +32,11 @@ choice=$(yad --list \
 
 if [ $? -eq 0 ]; then
 	make ${choice} -f $(dirname $0)/packages/makefile
-	if [[ $$? -eq 0 ]]; then \
-		yad --title="Éxito" --text-align=center --width=350 --borders=15 --image=dialog-success --text="Instalación finalizada."; \
-	else \
-		yad --title="Error" --text-align=center --width=350 --borders=15 --image=dialog-error --text="Ocurrió un error."; \
-	fi
+	if [[ $? -eq 0 ]]; then 
+		yad --title="Éxito" --text-align=center --width=350 --borders=15 --image=dialog-success --text="Instalación finalizada.";
+	else 
+		yad --title="Error" --text-align=center --width=350 --borders=15 --image=dialog-error --text="Ocurrió un error.";
+	fi;
 fi
 else
 	exit 1

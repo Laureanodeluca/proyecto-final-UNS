@@ -37,4 +37,4 @@ En los siguientes cuadros están los softwares necesarios en la carrera y el sop
 | 4° | Selenium Webdriver | VyVS | ❌ | |
 | 4° | TAPIR | VyVS | ❌ | |
 | 4° | Jenkins | VyVS | ✔️ | |
-| 4° | Newman | VyVS | ❌ | |
+| 4° | Newman | VyVS | ✔️ | _No es necesario instalar, se usa NPM_ |

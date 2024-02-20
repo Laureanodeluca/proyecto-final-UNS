@@ -141,8 +141,6 @@ jenkins:
 	pkexec apt-get install jenkins -y;\
 	echo "100"' | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Instalando paquete..." --title="Instalación de Jenkins"
 
-
-
 # =============== Tipos de instalación genéricos ===============
 # Para la mayoría de los paquetes, que siguen un patrón marcado de instalación
 # 
@@ -171,7 +169,7 @@ jenkins:
 #	$3: Nombre del programa.
 
 define apt-install
-	pkexec apt-get install $1 -y | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Instalando paquete..." --title="Instalación de $1"; \
+	pkexec apt-get install $1 -y | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Instalando paquete..." --title="Instalación de $1"
 endef
 
 define deb-install
