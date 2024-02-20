@@ -32,9 +32,8 @@ En los siguientes cuadros están los softwares necesarios en la carrera y el sop
 | 4° | Postman | IAWeb, VyVS | ✔️ | |
 | 4° | ProjectLibre | PSS | ✔️ | |
 | 4° | PMD | VyVS | ✔️ | |
-| 4° | SonarQube | VyVS | ❌ | |
-| 4° | Selenium IDE | VyVS | ❌ | |
-| 4° | Selenium Webdriver | VyVS | ❌ | |
-| 4° | TAPIR | VyVS | ❌ | |
+| 4° | SonarQube | VyVS | ❌ | _Imposible de automatizar_ |
+| 4° | Selenium IDE / WebDriver | VyVS | ✔️ | _Es una extensión de Google Chrome_ |
+| 4° | TAPIR | VyVS | ✔️ | _Es una extensión de Eclipse_ |
 | 4° | Jenkins | VyVS | ✔️ | |
 | 4° | Newman | VyVS | ✔️ | _No es necesario instalar, se usa NPM_ |
