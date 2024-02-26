@@ -37,7 +37,6 @@ if [ $? -eq 0 ]; then
 	else 
 		yad --title="Error" --text-align=center --width=350 --borders=15 --image=dialog-error --text="Ocurrió un error.";
 	fi;
-fi
 else
 	exit 1
 fi
