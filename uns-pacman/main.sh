@@ -2,9 +2,9 @@
 
 check_installation() {
 	if [[ $? -eq 0 ]]; then 
-		yad --title="Éxito" --text-align=center --width=350 --borders=15 --image=dialog-success --text="Instalación finalizada.";
+		yad --title="Éxito" --text-align=center --width=350 --borders=15 --image=dialog-info --text="Operación finalizada correctamente.";
 	else 
-		yad --title="Error" --text-align=center --width=350 --borders=15 --image=dialog-error --text="Programa no instalado.";
+		yad --title="Error" --text-align=center --width=350 --borders=15 --image=dialog-error --button="Ok":0 --text="La operación finalizó inesperadamente.";
 	fi;
 }
 
@@ -19,7 +19,9 @@ do
 		--borders=15 \
 		--hide-column=1 \
 		--column="package_name" --column="Nombre" --column="Descripción" \
-		--button="Salir":"1" \
+		--button="Instalar":0 \
+		--button="Desinstalar":1 \
+		--button="Salir":2 \
 		--print-column=1 \
 		--grid-lines=vert \
 		--header-tips \
@@ -46,10 +48,18 @@ do
 		pmd "PMD" "Analizador de código multilenguaje."\
 		jenkins "Jenkins" "Servidor de automatización de código abierto.");
 
-	if [ $? -eq 0 ]; then
+	exval=$?;
+
+	if [ $exval -eq 0 ]; then
 		make ${choice} -f $(dirname $0)/managers/installer; 
 		check_installation;
 	else
-		exit 1;
+		if [ $exval -eq 1 ]; then
+			make ${choice} -f $(dirname $0)/managers/uninstaller;
+			check_installation;
+		else
+			exit 0;
+		fi;
 	fi;
+	
 done
