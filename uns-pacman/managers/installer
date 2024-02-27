@@ -180,6 +180,8 @@ define deb-install
 	if [[ $$code -eq 0 ]]; then \
 		pkexec dpkg -i /tmp/$2 2>&1 | zenity --progress --pulsate --no-cancel --auto-kill --auto-close --width=350 --title="Instalación de $2" --text="Instalando paquete...";\
 		code=$$?;\
+	else \
+		exit 1 ;\
 	fi
 endef
 
