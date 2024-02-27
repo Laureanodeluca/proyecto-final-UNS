@@ -1,4 +1,15 @@
 #!/bin/bash
+
+check_installation() {
+	if [[ $? -eq 0 ]]; then 
+		yad --title="Éxito" --text-align=center --width=350 --borders=15 --image=dialog-success --text="Instalación finalizada.";
+	else 
+		yad --title="Error" --text-align=center --width=350 --borders=15 --image=dialog-error --text="Ocurrió un error.";
+	fi;
+}
+
+export -f check_installation;
+
 choice=$(yad --list \
 	--title "Instalación de paquetes - UNS" \
 	--height=600 \
@@ -6,8 +17,13 @@ choice=$(yad --list \
 	--borders=15 \
 	--hide-column=1 \
 	--column="package_name" --column="Nombre" --column="Descripción" \
+	--button="Instalar":"bash -c 'make ${choice} -f $(dirname $0)/packages/makefile; check_installation'" \
+	--dclick-action="bash -c 'make ${choice} -f $(dirname $0)/packages/makefile; check_installation'" \
+	--button="Salir":"1" \
 	--print-column=1 \
-	--separator=""\
+	--grid-lines=vert \
+	--header-tips \
+	--separator="" \
 	codeblocks CodeBlocks "IDE para programación en C." \
 	lazarus Lazarus "IDE para programación en Pascal."\
 	swi-prolog SWI-prolog "Intérprete para el lenguaje de programación Prolog."\
@@ -29,14 +45,3 @@ choice=$(yad --list \
 	php "PHP" "Lenguaje de programación interpretado del lado del servidor."\
 	pmd "PMD" "Analizador de código multilenguaje."\
 	jenkins "Jenkins" "Servidor de automatización de código abierto.")
-
-if [ $? -eq 0 ]; then
-	make ${choice} -f $(dirname $0)/packages/makefile
-	if [[ $? -eq 0 ]]; then 
-		yad --title="Éxito" --text-align=center --width=350 --borders=15 --image=dialog-success --text="Instalación finalizada.";
-	else 
-		yad --title="Error" --text-align=center --width=350 --borders=15 --image=dialog-error --text="Ocurrió un error.";
-	fi;
-else
-	exit 1
-fi
