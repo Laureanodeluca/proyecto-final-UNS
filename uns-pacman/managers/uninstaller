@@ -37,9 +37,7 @@ eclipse:
 
 .PHONY: staruml
 staruml:
-	@URL=https://staruml.io/$$(curl -s https://staruml.io/download/ | grep -o "api/download/releases-v6/StarUML_[0-9]*\.[0-9]*\.[0-9]*_amd64\.deb" | head -n 1);\
-	PKG_NAME=$$(echo $$URL | grep -o "StarUML_[0-9]*\.[0-9]*\.[0-9]*_amd64\.deb");\
-	$(call deb-install,$${URL},$${PKG_NAME},StarUML)
+	$(call apt-uninstall,staruml,StarUML)
 
 .PHONY: logisim
 logisim:
@@ -71,8 +69,7 @@ android-studio:
 
 .PHONY: visual-studio-code
 visual-studio-code:
-	@URL=$$(curl -sL https://code.visualstudio.com/updates/ | grep -o "https://update\.code\.visualstudio\.com/[0-9]*\.[0-9]*\.[0-9]*/linux-deb-x64/stable");\
-	$(call deb-install,$${URL},visual-studio-code.deb,"Visual\ Studio\ Code")
+	$(call apt-uninstall,code,"Visual\ Studio\ Code")
 
 .PHONY: virtualbox
 virtualbox:
@@ -123,17 +120,7 @@ pmd:
 
 .PHONY: jenkins
 jenkins:
-	@pkexec /bin/bash -c 'wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key;\
-	echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null;\
-	echo "# Actualizando repositorio";\
-	pkexec apt update;\
-	echo "10";\
-	echo "# Instalando dependencias...";\
-	pkexec apt install fontconfig openjdk-17-jre -y;\
-	echo "50";\
-	echo "# Instalando Jenkins...";\
-	pkexec apt-get install jenkins -y;\
-	echo "100"' | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Instalando paquete..." --title="Instalación de Jenkins"
+	$(call apt-uninstall,jenkins,Jenkins)
 
 # =============== Tipos de instalación genéricos ===============
 # Para la mayoría de los paquetes, que siguen un patrón marcado de instalación
