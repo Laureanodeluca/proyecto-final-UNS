@@ -26,14 +26,9 @@ bluej:
 
 .PHONY: eclipse
 eclipse:
-	@TARBALL_NAME="eclipse-inst-jre-linux64.tar.gz";\
-	BASE_URL="https://eclipse.c3sl.ufpr.br/oomph/epp/";\
-	LATEST_RELEASE_DATE=$$(curl -s "$$BASE_URL" | grep -Eo "[0-9]{1,4}-[0-9]{1,2}/" | tail -n 1 | grep -Eo "[0-9]{1,4}-[0-9]{1,2}");\
-	RELEASE=$$(curl -s "$${BASE_URL}/$${LATEST_RELEASE_DATE}/" | grep -o "M[0-9]" | tail -n 1);\
-	URL=$${BASE_URL}$${LATEST_RELEASE_DATE}/$${RELEASE}/$${TARBALL_NAME};\
-	INSTALLER_FILENAME="eclipse-installer/eclipse-inst";\
-	$(call tarball-download,$${URL},$${TARBALL_NAME},Eclipse);\
-	$(call generic-install,$${INSTALLER_FILENAME},Eclipse)
+	rm ~/.local/share/applications/epp.package.java.desktop;\
+	rm ~/.local/share/applications/_home_vdiuser_eclipse-installer_.desktop;\
+	$(call generic-uninstall,~/.eclipse,Eclipse)
 
 .PHONY: staruml
 staruml:
@@ -151,4 +146,8 @@ jenkins:
 
 define apt-uninstall
 	pkexec apt-get autoremove $1 -y | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Desinstalando paquete..." --title="Desinstalación de $1"
+endef
+
+define generic-uninstall
+	pkexec rm -r $1 | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Desinstalando paquete..." --title="Desinstalación de $1"
 endef
