@@ -9,7 +9,7 @@ En los siguientes cuadros están los softwares necesarios en la carrera y el sop
 | :---: | :--------: | :-------: | :------: | :-----: | :-----: | 
 | 1° | Lazarus | RPA | ✔️ | ✔️ | |
 | 1° | BlueJ | IPOO | ✔️ | ✔️ | |
-| 2° | Eclipse | Estructuras de Datos, TDP | ✔️ | ❌ | |
+| 2° | Eclipse | Estructuras de Datos, TDP | ✔️ | ✔️ | |
 | 2° | StarUML | Modelos de Software | ✔️ | ✔️ | |
 | 2° | Infostat | Estadística | ❌ | ❌ | _No tiene soporte de Linux. Posiblemente se tenga que usar Wine._ |
 | 2° | CodeBlocks | Orga | ✔️ | ✔️ | |
