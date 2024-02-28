@@ -18,13 +18,11 @@ lazarus:
 
 .PHONY: swi-prolog
 swi-prolog: 
-	$(call apt-uninstall,swi-prolog)
+	$(call apt-uninstall,swi-prolog,SWI-Prolog)
 
 .PHONY: bluej
 bluej:
-	@URL=$$(curl -s https://www.bluej.org/ | grep -o "https://www\.bluej\.org/download/files/BlueJ-linux-[0-9]*\.deb"); \
-	PKG_NAME=$$(echo $$URL | grep -o "BlueJ-linux-[0-9]*\.deb");\
-	$(call deb-install,$${URL},$${PKG_NAME},BlueJ) 
+	$(call apt-uninstall,bluej,BlueJ) 
 
 .PHONY: eclipse
 eclipse:

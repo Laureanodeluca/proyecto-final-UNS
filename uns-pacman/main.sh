@@ -19,9 +19,8 @@ do
 		--borders=15 \
 		--hide-column=1 \
 		--column="package_name" --column="Nombre" --column="Descripción" \
-		--button="Instalar":0 \
-		--button="Desinstalar":1 \
-		--button="Salir":2 \
+		--button="Seleccionar":0 \
+		--button="Salir":1 \
 		--print-column=1 \
 		--grid-lines=vert \
 		--header-tips \
@@ -51,15 +50,27 @@ do
 	exval=$?;
 
 	if [ $exval -eq 0 ]; then
-		make ${choice} -f $(dirname $0)/managers/installer; 
-		check_installation;
-	else
-		if [ $exval -eq 1 ]; then
-			make ${choice} -f $(dirname $0)/managers/uninstaller;
+		yad --title="${choice}" \
+			--image="info" \
+			--text="¿Desea instalar o desinstalar ${choice}?" \
+			--window-icon="info" \
+			--center \
+			--borders=15 \
+			--button="Instalar":0 \
+			--button="Desinstalar":1 \
+			--button="Cancelar":2
+
+		option=$?
+		if [ $option -eq 0 ]; then 
+			make ${choice} -f $(dirname $0)/managers/installer;
 			check_installation;
 		else
-			exit 0;
-		fi;
+			if [ $option -eq 1 ]; then 
+				make ${choice} -f $(dirname $0)/managers/uninstaller
+				check_installation;
+			fi;
+		fi;				
+	else
+		exit 1;
 	fi;
-	
 done
