@@ -48,11 +48,8 @@ kotlin:
 
 .PHONY: alloy
 alloy:
-	URL=$$(curl -L https://api.github.com/repos/AlloyTools/org.alloytools.alloy/releases/latest | grep "browser_download_url.*jar"| cut -d : -f 2,3 | tr -d \");\
-	mkdir ~/alloy/;\
-	wget $${URL} -P ~ -O ~/alloy/alloy.jar 2>&1 | grep --line-buffered -Eo "[0-9]{1,2}%" | yad --progress --pulsate --auto-kill --auto-close --borders=15 --no-buttons --text="Esperando a que finalice la instalación..." --title="Instalación de Alloy";\
-	chmod u+x ~/alloy/alloy.jar;\
-	pkexec ln -s ~/alloy/alloy.jar /usr/bin/alloy
+	pkexec rm --recursive ~/alloy /usr/bin/alloy | zenity --progress --pulsate --auto-close --no-cancel --text="Desinstalando Alloy" --title="Desinstalación de Alloy";\
+
 
 .PHONY: android-studio
 android-studio:
