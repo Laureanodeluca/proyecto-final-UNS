@@ -53,11 +53,7 @@ alloy:
 
 .PHONY: android-studio
 android-studio:
-	URL=$$(curl -s https://developer.android.com/studio?hl=es-419 | grep -o "https://redirector\.gvt1\.com/edgedl/android/studio/ide-zips/[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*/android-studio-[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*-linux.tar.gz");\
-	TARBALL_NAME=$$(echo $${URL} | grep -o android-studio-[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*-linux.tar.gz);\
-	INSTALLER=android-studio/bin/studio.sh;\
-	$(call tarball-download,$${URL},$${TARBALL_NAME},"Android\ Studio");\
-	$(call generic-install,$${INSTALLER},"Android\ Studio")
+	$(call generic-uninstall,~/.AndroidStudio ~/.android ~/.local/share/applications/jetbrains-android-studio.desktop,"Android Studio")
 
 .PHONY: visual-studio-code
 visual-studio-code:
@@ -142,9 +138,9 @@ jenkins:
 #	$3: Nombre del programa.
 
 define apt-uninstall
-	pkexec apt-get autoremove $1 -y | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Desinstalando paquete..." --title="Desinstalación de $1"
+	pkexec apt-get autoremove $1 -y | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Desinstalando paquete..." --title="Desinstalación de $2"
 endef
 
 define generic-uninstall
-	pkexec rm -r $1 | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Desinstalando paquete..." --title="Desinstalación de $1"
+	pkexec rm -r $1 | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Desinstalando paquete..." --title="Desinstalación de $2"
 endef
