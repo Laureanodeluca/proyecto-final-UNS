@@ -18,7 +18,7 @@ En los siguientes cuadros están los softwares necesarios en la carrera y el sop
 | 3° | MySQL | Bases de Datos | ✔️ | ✔️ | |
 | 3° | Alloy | Métodos Formales | ✔️ | ✔️ | |
 | 3° | VirtualBox | Sistemas Operativos | ✔️ | ✔️ | |
-| 4° | Android Studio | Arqui y Diseño | ✔️ | ❌ | |
+| 4° | Android Studio | Arqui y Diseño | ✔️ | ✔️ | |
 | 4° | IntelliJ IDEA | Arqui y Diseño | ✔️ | ❌ | |
 | 4° | Jira | Arqui y Diseño | ❌ | ❌ | _Imposible de automatizar_ |
 | 4° | Kotlin | Arqui y Diseño | ✔️ | ✔️ | |
