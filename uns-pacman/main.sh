@@ -13,6 +13,8 @@ check_installation() {
 export -f check_installation;
 
 main_program() {
+	source $(dirname $0)/updater/updater.sh
+
 	while [ $? -eq 0 ] 
 	do
 		choice=$(yad --list \
