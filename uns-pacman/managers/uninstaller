@@ -48,8 +48,7 @@ kotlin:
 
 .PHONY: alloy
 alloy:
-	pkexec rm --recursive ~/alloy /usr/bin/alloy | zenity --progress --pulsate --auto-close --no-cancel --text="Desinstalando Alloy" --title="Desinstalación de Alloy";\
-
+	$(call generic-uninstall, ~/alloy /usr/bin/alloy,Alloy)
 
 .PHONY: android-studio
 android-studio:
@@ -70,14 +69,8 @@ mysql:
 
 .PHONY: intellij
 intellij: 
-	@LATEST_VERSION=$$(curl -s https://blog.jetbrains.com/idea/category/releases/ | grep -Eo "[0-9]{4}\.[0-9]*\.[0-9]*" | head -n 1);\
-	PACKAGE_NAME=ideaIC-$${LATEST_VERSION}.tar.gz;\
-	URL=https://download-cdn.jetbrains.com/idea/ideaIC-$${LATEST_VERSION}.tar.gz;\
-	wget --progress=dot $${URL} -P ~ 2>&1 | grep --line-buffered -oP "(\d+(\.\d+)?(?=%))" | yad --progress --button=gtk-cancel:1 --auto-close --borders=15 --width=350 --text="Descargando paquete..." --title="Instalación de IntelliJ";\
-	tar -xvzf ~/$${PACKAGE_NAME} -C ~ | yad --progress --pulsate --auto-kill --auto-close --borders=15 --no-buttons --text="Descomprimiendo IntelliJ..." --title="Instalación de IntelliJ";\
-	rm ~/$${PACKAGE_NAME};\
-	DIRECTORY=$$(ls ~ | grep -o "idea-IC-[0-9]*\.[0-9]*\.[0-9]*" | head -n 1);\
-	eval ~/$${DIRECTORY}/bin/idea.sh
+	@DIRECTORY=$$(ls ~ | grep -o "idea-IC-[0-9]*\.[0-9]*\.[0-9]*" | head -n 1);\
+	$(call generic-uninstall,~/$$DIRECTORY,"IntelliJ IDEA")
 
 .PHONY: npm
 npm:
@@ -89,8 +82,7 @@ projectlibre:
 
 .PHONY: postman
 postman:
-	@TARBALL_NAME="postman.tar.gz";\
-	$(call tarball-download,"https://dl.pstmn.io/download/latest/linux_64",$${TARBALL_NAME},Postman)
+	$(call generic-uninstall,~/Postman,Postman)
 
 .PHONY: php
 php:
@@ -98,44 +90,22 @@ php:
 
 .PHONY: pmd
 pmd:
-	@URL=$$(curl -sL https://api.github.com/repos/pmd/pmd/releases/latest | grep "browser_download_url.*bin\.zip" | cut -d : -f 2,3 | tr -d \");\
-	ZIPFILE_NAME=$$(echo $${URL} | cut -d '/' -f 10-);\
-	LATEST_VERSION=$$(curl -s https://api.github.com/repos/pmd/pmd/releases/latest | grep "tag_name.*[0-9]*\.*[0-9]*\.[0-9]*" | cut -d "/" -f 2- | tr -d \" | tr -d ,);\
-	INSTALL_FOLDER="$${HOME}/pmd-bin-$${LATEST_VERSION}/";\
-	echo "FLD: $$INSTALL_FOLDER";\
-	$(call zip-download,$${URL},$${ZIPFILE_NAME}, "PMD");\
-	pkexec ln -s $${INSTALL_FOLDER}/bin/pmd /usr/bin/
+	$(call generic-uninstall,~/pmd-bin-* /usr/bin/pmd,PMD)
 
 .PHONY: jenkins
 jenkins:
 	$(call apt-uninstall,jenkins,Jenkins)
 
-# =============== Tipos de instalación genéricos ===============
-# Para la mayoría de los paquetes, que siguen un patrón marcado de instalación
+# =============== Tipos de desinstalación ===============
+# Los paquetes, que siguen un patrón marcado de desinstalación
 # 
-# apt-uninstall: Cuando la instalación fue hecha usando el comando apt install [PAQUETE] o se instaló usando un archivo .deb
-# 	$1: Nombre del paquete APT.
-#	$2: Nomre del programa.
+# apt-uninstall: Cuando el paquete se desinstala mediante el comando apt-get remove
+#   $1: Nombre del paquete
+#   $2: Nombre del programa
 #
-# deb-install: Cuando la instalación se hace mediante un archivo de instalación .deb
-# 	$1: URL de descarga.
-# 	$2: Nombre del paquete (nombre del archivo .deb).
-# 	$3: Nombre del programa
-#
-# generic-install: Cuando la instalación se hace con un script de instalación
-#	$1: URL de descarga		
-#	$2: Nombre del archivo de instalación (partiendo desde $HOME)
-#	$3: Nombre del programa.
-#
-# tarball-download: Descarga y descomprime un archivo .tar.gz.
-# 	$1: URL de descarga.
-# 	$2: Nombre del tarball (.tar.gz).
-# 	$3: Nombre del programa.
-#
-# zip-download: Descarga y descomprime un archivo .zip.
-#	$1: URL de descarga.
-#	$2: Nombre del archivo .zip.
-#	$3: Nombre del programa.
+# generic-uninstall: Cuando el paquete se desinstala únicamente removiendo contenido de directorios.
+#   $1: Directorio(s) a eliminar.
+#   $2: Nombre del programa
 
 define apt-uninstall
 	pkexec apt-get autoremove $1 -y | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Desinstalando paquete..." --title="Desinstalación de $2"
