@@ -1,3 +1,4 @@
-uns-installer_*.deb
+uns-pacman_*.deb
+uns-pacman/updater.sh
 DEBIAN/
 bin/

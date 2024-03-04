@@ -8,7 +8,6 @@ SHELL := /bin/bash
 	--image=dialog-error \
 	--borders=15
 
-
 .PHONY: codeblocks
 codeblocks:
 	$(call apt-install,codeblocks, Codeblocks)
