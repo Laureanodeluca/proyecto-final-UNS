@@ -96,6 +96,11 @@ pmd:
 jenkins:
 	$(call apt-uninstall,jenkins,Jenkins)
 
+.PHONY: infostat
+infostat:
+	$(call wine-uninstall)
+
+
 # =============== Tipos de desinstalación ===============
 # Los paquetes, que siguen un patrón marcado de desinstalación
 # 
@@ -106,6 +111,8 @@ jenkins:
 # generic-uninstall: Cuando el paquete se desinstala únicamente removiendo contenido de directorios.
 #   $1: Directorio(s) a eliminar.
 #   $2: Nombre del programa
+#
+# wine-uninstall: Cuando el paquete se instala y desinstala usando Wine
 
 define apt-uninstall
 	pkexec apt-get autoremove $1 -y | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Desinstalando paquete..." --title="Desinstalación de $2"
@@ -113,4 +120,10 @@ endef
 
 define generic-uninstall
 	pkexec rm -r $1 | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Desinstalando paquete..." --title="Desinstalación de $2"
+endef
+
+define wine-uninstall
+	yad --title="Desinstalación de programa Wine" --width=400 --borders=15 --button="Ok":0 --text="A continuación se ejecutará el desinstalador de Wine.\nLos programas que no tienen soporte para Linux, se instalan utilizando el utilitario Wine, que simula un entorno de Windows.\nLa desinstalación se hace mediante el utilitario <b>wine uninstaller</b>. Una vez dentro del desinstalador de Wine, seleccionar el programa que se desea eliminar, y desinstalarlo acordemente.";\
+	wine uninstaller;\
+	exit 0
 endef

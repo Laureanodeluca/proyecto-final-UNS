@@ -140,6 +140,10 @@ jenkins:
 	pkexec apt-get install jenkins -y;\
 	echo "100"' | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Instalando paquete..." --title="Instalación de Jenkins"
 
+.PHONY: infostat
+infostat:
+	@$(call wine-install,"https://www.infostat.com.ar/descargas/demo/infostatinstaller_esp.exe","infostatinstaller_esp.exe",Infostat)
+
 # =============== Tipos de instalación genéricos ===============
 # Para la mayoría de los paquetes, que siguen un patrón marcado de instalación
 # 
@@ -156,6 +160,11 @@ jenkins:
 #	$1: URL de descarga		
 #	$2: Nombre del archivo de instalación (partiendo desde $HOME)
 #	$3: Nombre del programa.
+#
+# wine-install: Cuando la instalación se hace mediante Wine
+#   $1: URL de descarga.
+# 	$2: Nombre del archivo a instalar.
+# 	$3: Nombre del programa
 #
 # tarball-download: Descarga y descomprime un archivo .tar.gz.
 # 	$1: URL de descarga.
@@ -185,8 +194,12 @@ define deb-install
 endef
 
 define generic-install
-	echo "PATH: $${HOME}/$1";\
 	eval $$HOME/$1 | zenity --progress --pulsate --auto-kill --auto-close --no-cancel --text="Esperando a que finalice la instalación..." --title="Instalación de $2"
+endef
+
+define wine-install
+	wget --progress=dot $1 -O ~/$2 2>&1 | grep --line-buffered -oP "(\d+(\.\d+)?(?=%))" | yad --progress --button=gtk-cancel:1 --auto-close --borders=15 --width=350 --text="Descargando paquete..." --title="Instalación de $3";\
+	wine ~/$2
 endef
 
 define tarball-download

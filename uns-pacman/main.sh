@@ -33,6 +33,7 @@ main_program() {
 			eclipse Eclipse "IDE para programación en Java." 2° "Estructuras de Datos, Tecnología de la Programación" \
 			codeblocks CodeBlocks "IDE para programación en C." 2° "Organización de Computadoras" \
 			staruml StarUML "Herramienta para creación de diagramas UML." 2° "Modelos de Software" \
+			infostat Infostat "Herramienta para visualización de modelos estadísticos" 2° "Modelos Estadísticos para Ciencias de la Computación" \
 			logisim Logisim "Herramienta para diagramado de circuitos." 3° "Arquitectura de Computadoras" \
 			mysql MySQL "Administrador de bases de datos." 3° "Bases de Datos" \
 			swi-prolog SWI-prolog "Intérprete para el lenguaje de programación Prolog." 3° "Lógica para Ciencias de la Computación" \
