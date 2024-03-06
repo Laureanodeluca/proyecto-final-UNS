@@ -100,6 +100,10 @@ jenkins:
 infostat:
 	$(call wine-uninstall)
 
+.PHONY: google-chrome
+google-chrome:
+	$(call apt-uninstall,google-chrome-stable,"Google Chrome")
+
 
 # =============== Tipos de desinstalación ===============
 # Los paquetes, que siguen un patrón marcado de desinstalación

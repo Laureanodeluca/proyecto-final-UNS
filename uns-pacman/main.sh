@@ -28,6 +28,7 @@ main_program() {
 			--grid-lines=vert \
 			--header-tips \
 			--separator="" \
+			google-chrome "Google Chrome" "Navegador web de Google" "-" "-" \
 			lazarus Lazarus "IDE para programación en Pascal." 1° "Resolución de Problemas y Algoritmos" \
 			bluej BlueJ "IDE para programación en Java. Orientado a principiantes." 1° "Introducción a la Programación Orientada a Objetos" \
 			eclipse Eclipse "IDE para programación en Java." 2° "Estructuras de Datos, Tecnología de la Programación" \

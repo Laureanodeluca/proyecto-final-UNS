@@ -144,6 +144,13 @@ jenkins:
 infostat:
 	@$(call wine-install,"https://www.infostat.com.ar/descargas/demo/infostatinstaller_esp.exe","infostatinstaller_esp.exe",Infostat)
 
+.PHONY: google-chrome
+google-chrome:
+	curl -fSsL https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor | sudo tee /usr/share/keyrings/google-chrome.gpg >> /dev/null ;\
+	echo deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main | sudo tee /etc/apt/sources.list.d/google-chrome.list ;\
+	apt update | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Actualizando repositorio..." --title="Instalación de Google Chrome" ;\
+	$(call apt-install,google-chrome-stable,"Google Chrome")
+
 # =============== Tipos de instalación genéricos ===============
 # Para la mayoría de los paquetes, que siguen un patrón marcado de instalación
 # 
@@ -177,7 +184,7 @@ infostat:
 #	$3: Nombre del programa.
 
 define apt-install
-	pkexec apt-get install $1 -y | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Instalando paquete..." --title="Instalación de $1"
+	pkexec apt-get install $1 -y | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Instalando paquete..." --title="Instalación de $2"
 endef
 
 define deb-install
