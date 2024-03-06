@@ -1,6 +1,6 @@
 #!/bin/bash
 LATEST=$(curl -sL https://api.github.com/repos/Laureanodeluca/proyecto-final-UNS/releases/latest | grep "tag_name" | grep -o "[0-9]*\.[0-9]*")
-INSTALLED=$(main --version | grep -o "[0-9]*\.[0-9]*")
+INSTALLED=$(uns-pacman --version | grep -o "[0-9]*\.[0-9]*")
 
 if [ "$LATEST" != "$INSTALLED" ]; then
     yad --title="UNS-Pacman Updater" \
@@ -18,4 +18,3 @@ if [ "$LATEST" != "$INSTALLED" ]; then
         pkexec dpkg -i ~/uns-pacman_${LATEST}_all.deb | zenity --progress --pulsate --no-cancel --auto-kill --auto-close --width=350 --title="UNS-Pacman Updater" --text="Instalando paquete..."
     fi;
 fi;
-
