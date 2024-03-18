@@ -186,38 +186,6 @@ github-desktop:
 java:
 	$(call apt-install,default-jdk,"Java JDK")
 
-# =============== Tipos de instalación genéricos ===============
-# Para la mayoría de los paquetes, que siguen un patrón marcado de instalación
-# 
-# apt-install: Cuando la instalación se hace via el comando apt install [PAQUETE]
-# 	$1: Nombre del paquete APT.
-#	$2: Nomre del programa.
-#
-# deb-install: Cuando la instalación se hace mediante un archivo de instalación .deb
-# 	$1: URL de descarga.
-# 	$2: Nombre del paquete (nombre del archivo .deb).
-# 	$3: Nombre del programa
-#
-# generic-install: Cuando la instalación se hace con un script de instalación
-#	$1: URL de descarga		
-#	$2: Nombre del archivo de instalación (partiendo desde $HOME)
-#	$3: Nombre del programa.
-#
-# wine-install: Cuando la instalación se hace mediante Wine
-#   $1: URL de descarga.
-# 	$2: Nombre del archivo a instalar.
-# 	$3: Nombre del programa
-#
-# tarball-download: Descarga y descomprime un archivo .tar.gz.
-# 	$1: URL de descarga.
-# 	$2: Nombre del tarball (.tar.gz).
-# 	$3: Nombre del programa.
-#
-# zip-download: Descarga y descomprime un archivo .zip.
-#	$1: URL de descarga.
-#	$2: Nombre del archivo .zip.
-#	$3: Nombre del programa.
-
 define apt-install
 	pkexec apt-get install $1 -y | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Instalando paquete..." --title="Instalación de $2"
 endef
