@@ -28,11 +28,13 @@ main_program() {
 			--grid-lines=vert \
 			--header-tips \
 			--separator="" \
-			google-chrome "Google Chrome" "Navegador web de Google" "-" "-" \
+			google-chrome "Google Chrome" "Navegador web de Google." "-" "-" \
+			github-desktop "Github Desktop" "Aplicación de escritorio del sistema de control de versiones Github." "-" "-" \
 			lazarus Lazarus "IDE para programación en Pascal." 1° "Resolución de Problemas y Algoritmos" \
+			java "Java (JDK)" "JDK. Developer Kit del lenguaje de programación Java." "1°, 2°, 3°" "IPOO, Estructuras de Datos, Tecnología de la Programación, Bases de Datos" \
 			bluej BlueJ "IDE para programación en Java. Orientado a principiantes." 1° "Introducción a la Programación Orientada a Objetos" \
 			eclipse Eclipse "IDE para programación en Java." 2° "Estructuras de Datos, Tecnología de la Programación" \
-			codeblocks CodeBlocks "IDE para programación en C." 2° "Organización de Computadoras" \
+			codeblocks Code::Blocks "IDE para programación en C." 2° "Organización de Computadoras" \
 			staruml StarUML "Herramienta para creación de diagramas UML." 2° "Modelos de Software" \
 			infostat Infostat "Herramienta para visualización de modelos estadísticos" 2° "Modelos Estadísticos para Ciencias de la Computación" \
 			logisim Logisim "Herramienta para diagramado de circuitos." 3° "Arquitectura de Computadoras" \

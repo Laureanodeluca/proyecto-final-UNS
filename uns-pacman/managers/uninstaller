@@ -10,11 +10,13 @@ SHELL := /bin/bash
 
 .PHONY: codeblocks
 codeblocks:
-	$(call apt-uninstall,codeblocks,Codeblocks)
+	$(call apt-uninstall,codeblocks,Code::Blocks);\
+	rm $$(xdg-user-dir DESKTOP)/codeblocks.desktop
 
 .PHONY: lazarus
 lazarus:
-	$(call apt-uninstall,lazarus,Lazarus)
+	$(call apt-uninstall,lazarus,Lazarus);\
+	rm $$(xdg-user-dir DESKTOP)/lazarus.desktop
 
 .PHONY: swi-prolog
 swi-prolog: 
@@ -22,7 +24,8 @@ swi-prolog:
 
 .PHONY: bluej
 bluej:
-	$(call apt-uninstall,bluej,BlueJ) 
+	$(call apt-uninstall,bluej,BlueJ);\
+	rm $$(xdg-user-dir DESKTOP)/bluej.desktop
 
 .PHONY: eclipse
 eclipse:
@@ -32,11 +35,13 @@ eclipse:
 
 .PHONY: staruml
 staruml:
-	$(call apt-uninstall,staruml,StarUML)
+	$(call apt-uninstall,staruml,StarUML);\
+	rm $$(xdg-user-dir DESKTOP)/staruml.desktop
 
 .PHONY: logisim
 logisim:
-	$(call apt-uninstall,logisim,Logisim)
+	$(call apt-uninstall,logisim,Logisim);\
+	rm $$(xdg-user-dir DESKTOP)/logisim.desktop
 
 .PHONY: postgresql
 postgresql:
@@ -48,7 +53,8 @@ kotlin:
 
 .PHONY: alloy
 alloy:
-	$(call generic-uninstall, ~/alloy /usr/bin/alloy,Alloy)
+	$(call generic-uninstall, ~/alloy /usr/bin/alloy,Alloy);\
+	rm $$(xdg-user-dir DESKTOP)/alloy.desktop
 
 .PHONY: android-studio
 android-studio:
@@ -56,11 +62,13 @@ android-studio:
 
 .PHONY: visual-studio-code
 visual-studio-code:
-	$(call apt-uninstall,code,"Visual\ Studio\ Code")
+	$(call apt-uninstall,code,"Visual\ Studio\ Code");\
+	rm $$(xdg-user-dir DESKTOP)/vscode.desktop
 
 .PHONY: virtualbox
 virtualbox:
 	@$(call apt-uninstall,virtualbox,VirtualBox);\
+	rm $$(xdg-user-dir DESKTOP)/virtualbox.desktop
 
 .PHONY: mysql
 mysql:
@@ -70,7 +78,8 @@ mysql:
 .PHONY: intellij
 intellij: 
 	@DIRECTORY=$$(ls ~ | grep -o "idea-IC-[0-9]*\.[0-9]*\.[0-9]*" | head -n 1);\
-	$(call generic-uninstall,~/$$DIRECTORY,"IntelliJ IDEA")
+	$(call generic-uninstall,~/$$DIRECTORY,"IntelliJ IDEA");\
+	rm $$(xdg-user-dir DESKTOP)/idea.desktop
 
 .PHONY: npm
 npm:
@@ -78,11 +87,13 @@ npm:
 
 .PHONY: projectlibre
 projectlibre:
-	$(call apt-uninstall,projectlibre,"ProjectLibre")
+	$(call apt-uninstall,projectlibre,"ProjectLibre");\
+	rm $$(xdg-user-dir DESKTOP)/projectlibre.desktop
 
 .PHONY: postman
 postman:
-	$(call generic-uninstall,~/Postman,Postman)
+	$(call generic-uninstall,~/Postman,Postman);\
+	rm $$(xdg-user-dir DESKTOP)/postman.desktop
 
 .PHONY: php
 php:
@@ -102,8 +113,17 @@ infostat:
 
 .PHONY: google-chrome
 google-chrome:
-	$(call apt-uninstall,google-chrome-stable,"Google Chrome")
+	$(call apt-uninstall,google-chrome-stable,"Google Chrome");\
+	rm $$(xdg-user-dir DESKTOP)/google-chrome.desktop
 
+.PHONY: github-desktop
+github-desktop:
+	$(call apt-uninstall,github-desktop,"Github Desktop");\
+	rm $$(xdg-user-dir DESKTOP)/github-desktop.desktop
+
+.PHONY: java
+java:
+	$(call apt-uninstall,default-jdk,"Java JDK")
 
 # =============== Tipos de desinstalación ===============
 # Los paquetes, que siguen un patrón marcado de desinstalación

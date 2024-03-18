@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 .DEFAULT:
-	@yad \
+	yad \
 	--text="<b>ERROR</b>: Paquete no encontrado. Contactar con un administrador." \
 	--center \
 	--width=350 \
@@ -10,11 +10,16 @@ SHELL := /bin/bash
 
 .PHONY: codeblocks
 codeblocks:
-	$(call apt-install,codeblocks, Codeblocks)
+	$(call apt-install,codeblocks, Code::Blocks);\
+	VERSION=$$(apt-cache show codeblocks | grep "Version" | cut -d " " -f 2 | cut -d - -f 1);\
+	$(call make-desktop-icon,codeblocks,$$VERSION,Code::Blocks,"IDE para programación en C.",codeblocks,codeblocks)
+
 
 .PHONY: lazarus
 lazarus:
-	$(call apt-install,lazarus, Lazarus)
+	$(call apt-install,lazarus, Lazarus);\
+	VERSION=$$(apt-cache show lazarus | grep "Version" | cut -d : -f 2 | cut -d + -f 1 | tr -d " ");\
+	$(call make-desktop-icon,lazarus,$$VERSION,Lazarus,"IDE para programación en Pascal","startlazarus","lazarus")
 
 .PHONY: swi-prolog
 swi-prolog: 
@@ -22,13 +27,16 @@ swi-prolog:
 
 .PHONY: bluej
 bluej:
-	@URL=$$(curl -s https://www.bluej.org/ | grep -o "https://www\.bluej\.org/download/files/BlueJ-linux-[0-9]*\.deb"); \
+	WEBPAGE=$$(curl -s https://www.bluej.org/);\
+	URL=$$(echo $$WEBPAGE | grep -o "https://www\.bluej\.org/download/files/BlueJ-linux-[0-9]*\.deb"); \
 	PKG_NAME=$$(echo $$URL | grep -o "BlueJ-linux-[0-9]*\.deb");\
-	$(call deb-install,$${URL},$${PKG_NAME},BlueJ) 
+	VERSION=$$(echo $$WEBPAGE | grep -o "Version [0-9]*\.[0-9]*\.[0-9]*" | head -n 1 | cut -d " " -f 2);\
+	$(call deb-install,$${URL},$${PKG_NAME},BlueJ);\
+	$(call make-desktop-icon,bluej,$$VERSION,BlueJ,"IDE para programación en Java. Orientado a principiantes.","bluej","bluej")
 
 .PHONY: eclipse
 eclipse:
-	@TARBALL_NAME="eclipse-inst-jre-linux64.tar.gz";\
+	TARBALL_NAME="eclipse-inst-jre-linux64.tar.gz";\
 	BASE_URL="https://eclipse.c3sl.ufpr.br/oomph/epp/";\
 	LATEST_RELEASE_DATE=$$(curl -s "$$BASE_URL" | grep -Eo "[0-9]{1,4}-[0-9]{1,2}/" | tail -n 1 | grep -Eo "[0-9]{1,4}-[0-9]{1,2}");\
 	RELEASE=$$(curl -s "$${BASE_URL}/$${LATEST_RELEASE_DATE}/" | grep -o "M[0-9]" | tail -n 1);\
@@ -39,13 +47,17 @@ eclipse:
 
 .PHONY: staruml
 staruml:
-	@URL=https://staruml.io/$$(curl -s https://staruml.io/download/ | grep -o "api/download/releases-v6/StarUML_[0-9]*\.[0-9]*\.[0-9]*_amd64\.deb" | head -n 1);\
+	URL=https://staruml.io/$$(curl -s https://staruml.io/download/ | grep -o "api/download/releases-v6/StarUML_[0-9]*\.[0-9]*\.[0-9]*_amd64\.deb" | head -n 1);\
 	PKG_NAME=$$(echo $$URL | grep -o "StarUML_[0-9]*\.[0-9]*\.[0-9]*_amd64\.deb");\
-	$(call deb-install,$${URL},$${PKG_NAME},StarUML)
+	$(call deb-install,$${URL},$${PKG_NAME},StarUML);\
+	VERSION=$$(apt-cache show staruml | grep "Version" | cut -d " " -f 2);\
+	$(call make-desktop-icon,staruml,$$VERSION,StarUML,"Herramienta para creación de diagramas UML.",staruml,staruml)
 
 .PHONY: logisim
 logisim:
-	$(call apt-install,logisim,Logisim)
+	$(call apt-install,logisim,Logisim);\
+	VERSION=$$(apt-cache show logisim | grep Version | cut -d " " -f 2 | cut -d "~" -f 1);\
+	$(call make-desktop-icon,logisim,$$VERSION,Logisim,"Herramienta para diagramado de circuitos.",logisim,logisim)
 
 .PHONY: postgresql
 postgresql:
@@ -61,7 +73,9 @@ alloy:
 	mkdir ~/alloy/;\
 	wget $${URL} -P ~ -O ~/alloy/alloy.jar 2>&1 | grep --line-buffered -Eo "[0-9]{1,2}%" | yad --progress --auto-kill --auto-close --borders=15 --no-buttons --text="Esperando a que finalice la instalación..." --title="Instalación de Alloy";\
 	chmod u+x ~/alloy/alloy.jar;\
-	pkexec ln -sf ~/alloy/alloy.jar /usr/bin/alloy
+	pkexec ln -sf ~/alloy/alloy.jar /usr/bin/alloy;\
+	VERSION=$$(alloy -v -q | cut -d . -f 1,2,3);\
+	$(call make-desktop-icon,alloy,$$VERSION,Alloy,"Lenguaje para expresar estructuras de control y comportamiento en un sistema de software",alloy,java)
 
 .PHONY: android-studio
 android-studio:
@@ -73,28 +87,33 @@ android-studio:
 
 .PHONY: visual-studio-code
 visual-studio-code:
-	@URL=$$(curl -sL https://code.visualstudio.com/updates/ | grep -o "https://update\.code\.visualstudio\.com/[0-9]*\.[0-9]*\.[0-9]*/linux-deb-x64/stable");\
-	$(call deb-install,$${URL},visual-studio-code.deb,"Visual\ Studio\ Code")
+	URL=$$(curl -sL https://code.visualstudio.com/updates/ | grep -o "https://update\.code\.visualstudio\.com/[0-9]*\.[0-9]*\.[0-9]*/linux-deb-x64/stable");\
+	$(call deb-install,$${URL},visual-studio-code.deb,"Visual\ Studio\ Code");\
+	VERSION=$$(code -v | head -n 1);\
+	$(call make-desktop-icon,vscode,$$VERSION,"Visual Studio Code","IDE para programación multilenguaje.",code,code)
 
 .PHONY: virtualbox
 virtualbox:
-	@$(call apt-install,virtualbox,VirtualBox);\
+	$(call apt-install,virtualbox,VirtualBox);\
+	VERSION=$$(apt-cache show virtualbox | grep "Version" | head -n 1 | cut -d " " -f 2 | cut -d "-" -f 1);\
+	$(call make-desktop-icon,virtualbox,$$VERSION,"VirtualBox","Administrador de máquinas virtuales.",virtualbox,virtualbox)
 
 .PHONY: mysql
 mysql:
-	@$(call apt-install,mysql-server,MySQL);
+	$(call apt-install,mysql-server,MySQL);
 	$(call apt-install,mysql-client,MySQL)
 
 .PHONY: intellij
 intellij: 
-	@LATEST_VERSION=$$(curl -s https://blog.jetbrains.com/idea/category/releases/ | grep -Eo "[0-9]{4}\.[0-9]*\.[0-9]*" | head -n 1);\
+	LATEST_VERSION=$$(curl -s https://blog.jetbrains.com/idea/category/releases/ | grep -Eo "[0-9]{4}\.[0-9]*\.[0-9]{1,2}" | head -n 1);\
 	PACKAGE_NAME=ideaIC-$${LATEST_VERSION}.tar.gz;\
 	URL=https://download-cdn.jetbrains.com/idea/ideaIC-$${LATEST_VERSION}.tar.gz;\
 	wget --progress=dot $${URL} -P ~ 2>&1 | grep --line-buffered -oP "(\d+(\.\d+)?(?=%))" | yad --progress --button=gtk-cancel:1 --auto-close --borders=15 --width=350 --text="Descargando paquete..." --title="Instalación de IntelliJ";\
 	tar -xvzf ~/$${PACKAGE_NAME} -C ~ | yad --progress --pulsate --auto-kill --auto-close --borders=15 --no-buttons --text="Descomprimiendo IntelliJ..." --title="Instalación de IntelliJ";\
 	rm ~/$${PACKAGE_NAME};\
 	DIRECTORY=$$(ls ~ | grep -o "idea-IC-[0-9]*\.[0-9]*\.[0-9]*" | head -n 1);\
-	eval ~/$${DIRECTORY}/bin/idea.sh
+	eval ~/$${DIRECTORY}/bin/idea.sh;\
+	$(call make-desktop-icon,intellij,$$LATEST_VERSION,"IntelliJ IDEA","IDE Para programación en Java y Kotlin",~/$${DIRECTORY}/bin/idea.sh,idea)
 
 .PHONY: npm
 npm:
@@ -102,23 +121,26 @@ npm:
 
 .PHONY: projectlibre
 projectlibre:
-	@LATEST_VERSION=$$(curl -sL https://sourceforge.net/projects/projectlibre/files/ProjectLibre/ | grep -o "[0-9]*\.[0-9]*\.[0-9]+*" | head -n 1);\
+	LATEST_VERSION=$$(curl -sL https://sourceforge.net/projects/projectlibre/files/ProjectLibre/ | grep -o "[0-9]*\.[0-9]*\.[0-9]+*" | head -n 1);\
 	PACKAGE_NAME=projectlibre_$${LATEST_VERSION}-1.deb;\
 	URL=https://sitsa.dl.sourceforge.net/project/projectlibre/ProjectLibre/$${LATEST_VERSION}/$${PACKAGE_NAME};\
-	$(call deb-install,$${URL},$${PACKAGE_NAME},"ProjectLibre")
+	$(call deb-install,$${URL},$${PACKAGE_NAME},"ProjectLibre");\
+	VERSION=$$(apt-cache show projectlibre | grep "Version" | cut -d " " -f 2 | cut -d "-" -f 1);\
+	$(call make-desktop-icon,projectlibre,$$VERSION,"ProjectLibre","Sistema de gestión de proyectos.",projectlibre,projectlibre)
 
 .PHONY: postman
 postman:
-	@TARBALL_NAME="postman.tar.gz";\
-	$(call tarball-download,"https://dl.pstmn.io/download/latest/linux_64",$${TARBALL_NAME},Postman)
+	TARBALL_NAME="postman.tar.gz";\
+	$(call tarball-download,"https://dl.pstmn.io/download/latest/linux_64",$${TARBALL_NAME},Postman);\
+	$(call make-desktop-icon,postman," ","Postman","Gestor de endpoints de APIs.",~/Postman/Postman,postman)
 
 .PHONY: php
 php:
-	@$(call apt-install,php,PHP)
+	$(call apt-install,php,PHP)
 
 .PHONY: pmd
 pmd:
-	@URL=$$(curl -sL https://api.github.com/repos/pmd/pmd/releases/latest | grep "browser_download_url.*bin\.zip" | cut -d : -f 2,3 | tr -d \");\
+	URL=$$(curl -sL https://api.github.com/repos/pmd/pmd/releases/latest | grep "browser_download_url.*bin\.zip" | cut -d : -f 2,3 | tr -d \");\
 	ZIPFILE_NAME=$$(echo $${URL} | cut -d '/' -f 10-);\
 	LATEST_VERSION=$$(curl -s https://api.github.com/repos/pmd/pmd/releases/latest | grep "tag_name.*[0-9]*\.*[0-9]*\.[0-9]*" | cut -d "/" -f 2- | tr -d \" | tr -d ,);\
 	INSTALL_FOLDER="$${HOME}/pmd-bin-$${LATEST_VERSION}/";\
@@ -128,8 +150,7 @@ pmd:
 
 .PHONY: jenkins
 jenkins:
-	@pkexec /bin/bash -c 'wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key;\
-	echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null;\
+	pkexec /bin/bash -c 'wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key && echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | tee /etc/apt/sources.list.d/jenkins.list > /dev/null' ;\
 	echo "# Actualizando repositorio";\
 	pkexec apt update;\
 	echo "10";\
@@ -142,14 +163,28 @@ jenkins:
 
 .PHONY: infostat
 infostat:
-	@$(call wine-install,"https://www.infostat.com.ar/descargas/demo/infostatinstaller_esp.exe","infostatinstaller_esp.exe",Infostat)
+	$(call wine-install,"https://www.infostat.com.ar/descargas/demo/infostatinstaller_esp.exe","infostatinstaller_esp.exe",Infostat)
 
 .PHONY: google-chrome
 google-chrome:
-	curl -fSsL https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor | sudo tee /usr/share/keyrings/google-chrome.gpg >> /dev/null ;\
-	echo deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main | sudo tee /etc/apt/sources.list.d/google-chrome.list ;\
-	apt update | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Actualizando repositorio..." --title="Instalación de Google Chrome" ;\
-	$(call apt-install,google-chrome-stable,"Google Chrome")
+	pkexec /bin/bash -c 'curl -fSsL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor | tee /usr/share/keyrings/google-chrome.gpg >> /dev/null && \
+	 echo deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main | tee /etc/apt/sources.list.d/google-chrome.list && \
+	 apt update && \
+	 apt install google-chrome-stable' | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Instalando Google Chrome..." --title="Instalación de Google Chrome";\
+	VERSION=$$(apt-cache show google-chrome-stable | grep "Version" | cut -d " " -f 2 | cut -d - -f 1);\
+	$(call make-desktop-icon,google-chrome,$$VERSION,"Google Chrome","Navegador web de Google",google-chrome-stable,google-chrome)
+
+.PHONY: github-desktop
+github-desktop:
+	pkexec /bin/bash -c 'wget -qO - https://apt.packages.shiftkey.dev/gpg.key | gpg --dearmor | tee /usr/share/keyrings/shiftkey-packages.gpg > /dev/null && \
+	echo "deb [arch=amd64 signed-by=/usr/share/keyrings/shiftkey-packages.gpg] https://apt.packages.shiftkey.dev/ubuntu/ any main" > /etc/apt/sources.list.d/shiftkey-packages.list && \
+	apt install github-desktop' | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Instalando GitHub Desktop" --title="Instalación de GitHub Desktop" ;\
+	VERSION=$$(apt-cache show github-desktop | grep "Version" | cut -d " " -f 2 | cut -d - -f 1);\
+	$(call make-desktop-icon,github-desktop,$$VERSION,"GitHub Desktop","Aplicación de escritorio del sistema de control de versiones Github.",github-desktop,github)
+
+.PHONY: java
+java:
+	$(call apt-install,default-jdk,"Java JDK")
 
 # =============== Tipos de instalación genéricos ===============
 # Para la mayoría de los paquetes, que siguen un patrón marcado de instalación
@@ -219,4 +254,15 @@ define zip-download
 	wget $1 -O $${HOME}/$2 2>&1 | grep --line-buffered -Eo "[0-9]{1,2}%" | yad --progress --pulsate --auto-kill --auto-close --borders=15 --no-buttons --text="Esperando a que finalice la instalación..." --title="Instalación de Alloy";\
 	unzip $$HOME/$2 -d $$HOME| zenity --progress --pulsate --no-cancel --auto-kill --auto-close --width=350 --title "Instalación de $3" --text="Descomprimiendo $2...";\
 	rm -f $${HOME}/$2
+endef
+
+define make-desktop-icon
+	ESCRITORIO=$$(xdg-user-dir DESKTOP); \
+	echo -e "[Desktop Entry]\n\
+	Version=$2\n\
+	Name=$3\n\
+	Comment=$4\n\
+	Exec=$5\n\
+	Icon=$6\n\
+	Type=Application">> $$ESCRITORIO/$1.desktop
 endef
