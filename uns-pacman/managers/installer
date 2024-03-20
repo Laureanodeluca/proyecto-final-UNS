@@ -110,6 +110,8 @@ intellij:
 	tar -xvzf ~/$${PACKAGE_NAME} -C ~ | yad --progress --pulsate --auto-kill --auto-close --borders=15 --no-buttons --text="Descomprimiendo IntelliJ..." --title="Instalación de IntelliJ";\
 	rm ~/$${PACKAGE_NAME};\
 	DIRECTORY=$$(ls ~ | grep -o "idea-IC-[0-9]*\.[0-9]*\.[0-9]*" | head -n 1);\
+	mv ~/$${DIRECTORY} ~/intellij;\
+	DIRECTORY=intellij;\
 	eval ~/$${DIRECTORY}/bin/idea.sh;\
 	$(call make-desktop-icon,intellij,$$LATEST_VERSION,"IntelliJ IDEA","IDE Para programación en Java y Kotlin",~/$${DIRECTORY}/bin/idea.sh,idea)
 
