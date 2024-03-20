@@ -14,7 +14,6 @@ codeblocks:
 	VERSION=$$(apt-cache show codeblocks | grep "Version" | cut -d " " -f 2 | cut -d - -f 1);\
 	$(call make-desktop-icon,codeblocks,$$VERSION,Code::Blocks,"IDE para programación en C.",codeblocks,codeblocks)
 
-
 .PHONY: lazarus
 lazarus:
 	$(call apt-install,lazarus, Lazarus);\
@@ -150,16 +149,10 @@ pmd:
 
 .PHONY: jenkins
 jenkins:
-	pkexec /bin/bash -c 'wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key && echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | tee /etc/apt/sources.list.d/jenkins.list > /dev/null' ;\
-	echo "# Actualizando repositorio";\
-	pkexec apt update;\
-	echo "10";\
-	echo "# Instalando dependencias...";\
-	pkexec apt install fontconfig openjdk-17-jre -y;\
-	echo "50";\
-	echo "# Instalando Jenkins...";\
-	pkexec apt-get install jenkins -y;\
-	echo "100"' | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Instalando paquete..." --title="Instalación de Jenkins"
+	pkexec /bin/bash -c 'wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key && echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | tee /etc/apt/sources.list.d/jenkins.list > /dev/null ;\
+	apt update;\
+	apt install fontconfig openjdk-17-jre -y;\
+	apt-get install jenkins -y' | yad --progress --pulsate --text="Instalando Jenkins..." --no-buttons --auto-close --borders=15 --width=350 --title="Instalación de Jenkins"
 
 .PHONY: infostat
 infostat:

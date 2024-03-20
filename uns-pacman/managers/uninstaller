@@ -31,8 +31,8 @@ bluej:
 eclipse:
 	rm ~/.local/share/applications/epp.package.java.desktop;\
 	rm ~/.local/share/applications/_home_vdiuser_eclipse-installer_.desktop;\
-	$(call generic-uninstall,~/.eclipse,Eclipse)
-
+	$(call generic-uninstall,~/.eclipse ~/eclipse ~/eclipse-installer,Eclipse)
+	
 .PHONY: staruml
 staruml:
 	$(call apt-uninstall,staruml,StarUML);\
@@ -143,7 +143,7 @@ define apt-uninstall
 endef
 
 define generic-uninstall
-	pkexec rm -r $1 | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Desinstalando paquete..." --title="Desinstalación de $2"
+	pkexec rm -rf $1 | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Desinstalando paquete..." --title="Desinstalación de $2"
 endef
 
 define wine-uninstall

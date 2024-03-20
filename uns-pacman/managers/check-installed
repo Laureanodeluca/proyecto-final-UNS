@@ -1,0 +1,133 @@
+SHELL := /bin/bash
+
+.DEFAULT:
+	yad \
+	--text="<b>ERROR</b>: Paquete no encontrado. Contactar con un administrador." \
+	--center \
+	--width=350 \
+	--text-align=center \
+	--image=dialog-error \
+	--borders=15
+
+.PHONY: codeblocks
+codeblocks:
+	$(call check-apt,codeblocks)
+
+.PHONY: lazarus
+lazarus:
+	$(call check-apt,lazarus)
+
+.PHONY: swi-prolog
+swi-prolog:	
+	$(call check-apt,swi-prolog)
+
+.PHONY: bluej
+bluej:
+	$(call check-apt,bluej)
+
+.PHONY: staruml
+staruml:
+	$(call check-apt,staruml)
+
+.PHONY: logisim
+logisim:
+	$(call check-apt,logisim)
+
+.PHONY: postgresql
+postgresql:
+	$(call check-apt,postgresql)
+
+.PHONY: kotlin
+kotlin:
+	$(call check-apt,kotlin)
+
+.PHONY: visual-studio-code
+visual-studio-code:
+	$(call check-apt,"code/stable")
+
+.PHONY: virtualbox
+virtualbox:
+	$(call check-apt,virtualbox)
+
+.PHONY: mysql
+mysql:
+	$(call check-apt,mysql)
+
+.PHONY: npm
+npm:
+	$(call check-apt,npm)
+
+.PHONY: projectlibre
+projectlibre:
+	$(call check-apt,projectlibre)
+
+.PHONY: php
+php:
+	$(call check-apt,php)
+
+.PHONY: jenkins
+jenkins:
+	$(call check-apt,jenkins)
+
+.PHONY: google-chrome
+google-chrome:
+	$(call check-apt,google-chrome)
+
+.PHONY: github-desktop
+github-desktop:
+	$(call check-apt,github-desktop)
+
+.PHONY: java
+java:
+	$(call check-apt,java)
+
+.PHONY: eclipse
+eclipse:
+	$(call check-generic,~/eclipse)
+
+.PHONY: alloy
+alloy:
+	$(call check-generic,~/alloy)
+
+.PHONY: android-studio
+android-studio:
+	$(call check-generic,~/.AndroidStudio)
+
+.PHONY: intellij
+intellij:
+	DIRECTORY=$$(ls ~ | grep -o "idea-IC-[0-9]*\.[0-9]*\.[0-9]*" | head -n 1);\
+	if [ -z $$DIRECTORY ]; then \
+		exit 1;\
+	else \
+		exit 0;\
+	fi
+
+.PHONY: postman
+postman:
+	$(call check-generic,~/Postman)
+
+.PHONY: pmd
+pmd:
+	DIRECTORY=$$(ls ~ | grep "pmd-bin-*");\
+	if [ -z $$DIRECTORY ]; then \
+		exit 1;\
+	else \
+		exit 0;\
+	fi
+	
+define check-apt
+	@INSTALLED=$$(apt list -qq --installed | grep $1 | head -n 1 | grep -o "instalado");\
+	if [ "$$INSTALLED" = "instalado" ]; then \
+		exit 0;\
+	else \
+		exit 1;\
+	fi
+endef
+
+define check-generic
+	@if [ -d $1 ]; then\
+		exit 0;\
+	else\
+		exit 1;\
+	fi
+endef
