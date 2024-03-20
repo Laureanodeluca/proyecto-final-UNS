@@ -72,9 +72,8 @@ alloy:
 	mkdir ~/alloy/;\
 	wget $${URL} -P ~ -O ~/alloy/alloy.jar 2>&1 | grep --line-buffered -Eo "[0-9]{1,2}%" | yad --progress --auto-kill --auto-close --borders=15 --no-buttons --text="Esperando a que finalice la instalación..." --title="Instalación de Alloy";\
 	chmod u+x ~/alloy/alloy.jar;\
-	pkexec ln -sf ~/alloy/alloy.jar /usr/bin/alloy;\
-	VERSION=$$(alloy -v -q | cut -d . -f 1,2,3);\
-	$(call make-desktop-icon,alloy,$$VERSION,Alloy,"Lenguaje para expresar estructuras de control y comportamiento en un sistema de software",alloy,java)
+	VERSION=$$(java -jar ~/alloy/alloy.jar -v -q | cut -d . -f 1,2,3);\
+	$(call make-desktop-icon,alloy,$$VERSION,Alloy,"Lenguaje para expresar estructuras de control y comportamiento en un sistema de software","java -jar ~/alloy/alloy.jar",java)
 
 .PHONY: android-studio
 android-studio:
@@ -212,7 +211,7 @@ define tarball-download
 endef
 
 define zip-download
-	wget $1 -O $${HOME}/$2 2>&1 | grep --line-buffered -Eo "[0-9]{1,2}%" | yad --progress --pulsate --auto-kill --auto-close --borders=15 --no-buttons --text="Esperando a que finalice la instalación..." --title="Instalación de Alloy";\
+	wget $1 -O $${HOME}/$2 2>&1 | grep --line-buffered -Eo "[0-9]{1,2}%" | yad --progress --pulsate --auto-kill --auto-close --borders=15 --no-buttons --text="Esperando a que finalice la instalación..." --title="Instalación de $3";\
 	unzip $$HOME/$2 -d $$HOME| zenity --progress --pulsate --no-cancel --auto-kill --auto-close --width=350 --title "Instalación de $3" --text="Descomprimiendo $2...";\
 	rm -f $${HOME}/$2
 endef

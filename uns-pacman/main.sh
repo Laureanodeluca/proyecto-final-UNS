@@ -57,15 +57,29 @@ main_program() {
 		exval=$?;
 
 		if [ $exval -eq 0 ]; then
-			yad --title="${choice}" \
-				--image="info" \
-				--text="¿Desea instalar o desinstalar ${choice}?" \
-				--window-icon="info" \
-				--center \
-				--borders=15 \
-				--button="Instalar":0 \
-				--button="Desinstalar":1 \
-				--button="Cancelar":2
+			source $(dirname $0)/managers/check-installed.sh $choice
+			is_installed=$?
+
+			if [ $is_installed -eq 1 ]; then
+				yad --title="${choice}" \
+					--image="info" \
+					--text="¿Desea instalar ${choice}?" \
+					--window-icon="info" \
+					--center \
+					--borders=15 \
+					--button="Instalar":0 \
+					--button="Cancelar":2;
+			else
+				yad --title="${choice}" \
+					--image="info" \
+					--text="¿Desea instalar o desinstalar ${choice}?" \
+					--window-icon="info" \
+					--center \
+					--borders=15 \
+					--button="Desinstalar":1 \
+					--button="Cancelar":2;
+			fi
+
 
 			option=$?
 			if [ $option -eq 0 ]; then 
