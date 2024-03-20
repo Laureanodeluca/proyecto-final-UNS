@@ -25,6 +25,13 @@ case $1 in
             check-apt $1
         fi
         ;;
+    "infostat" )
+        if [ -d ~/.wine/drive_c/Program\ Files\ \(x86\)/InfoStat ]; then
+            return 0
+        else
+            return 1
+        fi
+        ;;
     *)
         check-generic ~/$1
         ;;

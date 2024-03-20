@@ -72,7 +72,7 @@ main_program() {
 			else
 				yad --title="${choice}" \
 					--image="info" \
-					--text="¿Desea instalar o desinstalar ${choice}?" \
+					--text="¿Desea desinstalar ${choice}?" \
 					--window-icon="info" \
 					--center \
 					--borders=15 \
