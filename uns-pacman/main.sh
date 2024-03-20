@@ -52,7 +52,8 @@ main_program() {
 			postman "Postman" "Gestor de endpoints de APIs." 4° "Ingeniería de Aplicaciones Web" \
 			php "PHP" "Lenguaje de programación interpretado del lado del servidor." 4° "Ingeniería de Aplicaciones Web" \
 			pmd "PMD" "Analizador de código multilenguaje." 4° "Verificación y Validación de Software" \
-			jenkins "Jenkins" "Servidor de automatización de código abierto." 4° "Verificación y Validación de Software" );
+			jenkins "Jenkins" "Servidor de automatización de código abierto." 4° "Verificación y Validación de Software" \
+			arduino-ide "Arduino IDE" "IDE para programación en Arduino" 5° "Física II" );
 
 		exval=$?;
 

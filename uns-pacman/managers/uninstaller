@@ -125,6 +125,11 @@ github-desktop:
 java:
 	$(call apt-uninstall,default-jdk,"Java JDK")
 
+.PHONY: arduino-ide
+arduino-ide:
+	$(call generic-uninstall,~/arduino-ide_*,"Arduino IDE");\
+	rm $$(xdg-user-dir DESKTOP)/arduino-ide.desktop
+
 # =============== Tipos de desinstalación ===============
 # Los paquetes, que siguen un patrón marcado de desinstalación
 # 
