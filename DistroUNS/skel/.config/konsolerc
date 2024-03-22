@@ -1,0 +1,28 @@
+[Desktop Entry]
+DefaultProfile=Profile 1.profile
+
+[General]
+ConfigVersion=1
+
+[MainWindow]
+1360x768 screen: Height=537
+1360x768 screen: Width=793
+1360x768 screen: XPosition=283
+1360x768 screen: YPosition=88
+1440x900 screen: Height=679
+1440x900 screen: Width=1015
+1920x1080 screen: Height=1006
+1920x1080 screen: Width=956
+1920x1080 screen: XPosition=2
+1920x1080 screen: YPosition=32
+800x600 screen: Height=526
+800x600 screen: Width=396
+800x600 screen: XPosition=2
+800x600 screen: YPosition=32
+RestorePositionForNextInstance=false
+State=AAAA/wAAAAD9AAAAAQAAAAAAAAAAAAAAAPwCAAAAAvsAAAAiAFEAdQBpAGMAawBDAG8AbQBtAGEAbgBkAHMARABvAGMAawAAAAAA/////wAAAT8A////+wAAABwAUwBTAEgATQBhAG4AYQBnAGUAcgBEAG8AYwBrAAAAAAD/////AAAA7wD///8AAAO8AAADtAAAAAQAAAAEAAAACAAAAAj8AAAAAQAAAAIAAAACAAAAFgBtAGEAaQBuAFQAbwBvAGwAQgBhAHIBAAAAAP////8AAAAAAAAAAAAAABwAcwBlAHMAcwBpAG8AbgBUAG8AbwBsAGIAYQByAQAAAMD/////AAAAAAAAAAA=
+ToolBarsMovable=Disabled
+Virtual1=Virtual1
+
+[UiSettings]
+ColorScheme=

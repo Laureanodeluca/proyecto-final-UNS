@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=UNS-Pacman
+Comment=Administrador de paquetes para los programas usados en las carreras de la Universidad Nacional del Sur.
+Exec=uns-pacman
+Icon=package-x-generic
+Path=
+Terminal=false
+StartupNotify=false
