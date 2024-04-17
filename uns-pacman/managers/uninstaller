@@ -129,6 +129,11 @@ arduino-ide:
 	$(call generic-uninstall,~/arduino-ide_*,"Arduino IDE");\
 	rm $$(xdg-user-dir DESKTOP)/arduino-ide.desktop
 
+.PHONY: discord
+discord:
+	$(call apt-uninstall,discord,"Discord");\
+	rm $$(xdg-user-dir DESKTOP)/discord.desktop
+
 # =============== Tipos de desinstalación ===============
 # Los paquetes, que siguen un patrón marcado de desinstalación
 # 

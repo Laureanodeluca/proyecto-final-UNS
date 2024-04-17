@@ -30,6 +30,7 @@ main_program() {
 			--separator="" \
 			google-chrome "Google Chrome" "Navegador web de Google." "-" "-" \
 			github-desktop "Github Desktop" "Aplicación de escritorio del sistema de control de versiones Github." "-" "-" \
+			discord "Discord" "Aplicación de mensajería instantanea y voz via VoIP." "-" "-" \
 			lazarus Lazarus "IDE para programación en Pascal." 1° "Resolución de Problemas y Algoritmos" \
 			java "Java (JDK)" "JDK. Developer Kit del lenguaje de programación Java." "1°, 2°, 3°" "IPOO, Estructuras de Datos, Tecnología de la Programación, Bases de Datos" \
 			bluej BlueJ "IDE para programación en Java. Orientado a principiantes." 1° "Introducción a la Programación Orientada a Objetos" \

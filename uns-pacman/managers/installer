@@ -191,12 +191,21 @@ arduino-ide:
 	INSTALL_FOLDER="arduino-ide";\
 	$(call make-desktop-icon,arduino-ide,$$VERSION,"Arduino IDE","IDE para programación en Arduino",~/$${INSTALL_FOLDER}/arduino-ide,arduino)
 
+.PHONY: discord
+discord:
+	URL="https://discord.com/api/download?platform=linux&format=deb";\
+	PKG_NAME="discord.deb";\
+	$(call deb-install,$${URL},$${PKG_NAME},Discord);\
+	VERSION=$$(apt-cache show discord | grep "Version" | cut -d " " -f 2 | cut -d - -f 1);\
+	$(call make-desktop-icon,discord,$$VERSION,"Discord","Servicio de mensajería instantánea y voz vía VoIP",discord,discord)
+
 define apt-install
 	pkexec apt-get install $1 -y | zenity --progress --pulsate --no-cancel --auto-close --width=350 --text="Instalando paquete..." --title="Instalación de $2"
 endef
 
 define deb-install
-	echo /tmp/$2;\
+	echo "HOLA $1";\
+	echo "QUE TAL $2";\
 	rm -f /tmp/$2*;\
 	wget --progress=dot $1 -P /tmp -O /tmp/$2 2>&1 | grep --line-buffered -oP "(\d+(\.\d+)?(?=%))" | yad --progress --button=gtk-cancel:1 --auto-close --borders=15 --width=350 --text="Descargando paquete..." --title="Instalación de $2";\
 	code=$$?;\
