@@ -1,7 +1,7 @@
 #!/bin/bash
 
 check-apt() {
-    INSTALLED=$(apt list -qq --installed | grep $1 | head -n 1 | grep -o "instalado")
+    INSTALLED=$(apt list -qq --installed $1 | grep -o "instalado")
 	if [ "$INSTALLED" = "instalado" ]; then
     	return 0;
 	else 
