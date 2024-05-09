@@ -1,5 +1,5 @@
 #!/bin/bash
-VERSION=0.4
+VERSION=0.5
 check_installation() {
 	if [[ $? -eq 0 ]]; then 
 		yad --title="Éxito" --text-align=center --width=350 --borders=15 --image=dialog-info --text="Operación finalizada correctamente.";

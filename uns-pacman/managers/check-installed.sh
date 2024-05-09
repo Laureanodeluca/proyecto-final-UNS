@@ -18,7 +18,7 @@ check-generic() {
 }
 
 case $1 in
-    "codeblocks" | "lazarus" | "swi-prolog" | "bluej" | "staruml" | "logisim" | "postgresql" | "kotlin" | "visual-studio-code" | "virtualbox" | "mysql-client" | "mysql-server" | "npm" | "php" | "projectlibre" | "pmd" | "jenkins" | "google-chrome" | "github-desktop")
+    "codeblocks" | "lazarus" | "swi-prolog" | "bluej" | "staruml" | "logisim" | "postgresql" | "kotlin" | "visual-studio-code" | "virtualbox" | "mysql-client" | "mysql-server" | "npm" | "php" | "projectlibre" | "pmd" | "jenkins" | "google-chrome" | "github-desktop | discord")
         if [ "$1" = "visual-studio-code" ]; then
             check-apt code
         else
