@@ -17,6 +17,6 @@ if [ "$LATEST" != "$INSTALLED" ]; then
         FILENAME=$(echo ${URL} | cut -d "/" -f 9)
         wget ${URL} -P ~ 2>&1 | grep --line-buffered -Eo "[0-9]{1,2}%" | yad --progress --auto-kill --auto-close --borders=15 --no-buttons --text="Descargando UNS-Pacman..." --title="UNS-Pacman Updater"
         pkexec dpkg -i ~/${FILENAME} | zenity --progress --pulsate --no-cancel --auto-kill --auto-close --width=350 --title="UNS-Pacman Updater" --text="Instalando paquete..."
-		exit 0;
+        exit 0;
     fi;
 fi;
